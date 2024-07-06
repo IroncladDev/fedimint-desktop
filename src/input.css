@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  #app {
+    --bg-root: #d1d5db;
+    --bg-default: #e5e7eb;
+    --bg-higher: #f3f4f6;
+    --bg-highest: #f9fafb;
+
+    --fg-dimmest: #4b5563;
+    --fg-dimmer: #1f2937;
+    --fg-default: #000;
+
+    --outline-root: #4b5563;
+    --outline-default: #6b7280;
+    --outline-higher: #9ca3af;
+    --outline-highest: #d1d5db;
+
+    --accent-root: #0369a1;
+    --accent-default: #0284c7;
+    --accent-higher: #0ea5e9;
+    --accent-highest: #38bdf8;
+
+    background: var(--bg-root);
+    color: var(--fg-default);
+  }
+
+  #app.dark {
+    --bg-root: #030712;
+    --bg-default: #111827;
+    --bg-higher: #1f2937;
+    --bg-highest: #374151;
+
+    --fg-root: #9ca3af;
+    --fg-dimmer: #e5e7eb;
+    --fg-default: #fff;
+
+    --outline-root: #1f2937;
+    --outline-default: #374151;
+    --outline-higher: #4b5563;
+    --outline-highest: #6b7280;
+
+    --accent-root: #082f49;
+    --accent-default: #075985;
+    --accent-higher: #0284c7;
+    --accent-highest: #0ea5e9;
+
+    background: var(--bg-root);
+    color: var(--fg-default);
+  }
+}
