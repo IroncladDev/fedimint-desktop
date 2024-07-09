@@ -7,8 +7,9 @@ mod util;
 
 use dioxus::prelude::*;
 use routes::Route;
+use tailwind_fuse::tw_merge;
 use tracing::Level;
-use util::state::AppState;
+use util::state::{AppState, Theme};
 
 fn main() {
     // Init logger
@@ -23,6 +24,9 @@ fn main() {
 fn App() -> Element {
     let initial_state = use_resource(move || async move { AppState::new().await });
 
+    // TODO: Store state in config file and read to here
+    let themed_class = tw_merge!("dark");
+
     rsx! {
         match (initial_state.value())() {
             Some(Ok(state)) => rsx! {
@@ -30,11 +34,13 @@ fn App() -> Element {
             },
             Some(Err(e)) => rsx! {
                 div {
+                    class:themed_class,
                     "An error occurred: {e}"
                 }
             },
             None => rsx! {
                 div {
+                    class: themed_class,
                     "Loading"
                 }
             }
@@ -44,9 +50,19 @@ fn App() -> Element {
 
 #[component]
 fn Content(state: AppState) -> Element {
-    use_context_provider::<Signal<AppState>>(|| Signal::new(state));
+    let app_state = use_signal::<AppState>(|| state);
+
+    use_context_provider::<Signal<AppState>>(|| app_state);
+
+    let class = tw_merge!(
+        "flex grow min-h-screen w-full",
+        match app_state.read().theme {
+            Theme::Light => "",
+            Theme::Dark => "dark",
+        }
+    );
 
     rsx! {
-        Router::<Route> {}
+        div { class, id: "app", Router::<Route> {} }
     }
 }

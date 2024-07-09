@@ -1,9 +1,56 @@
 use dioxus::prelude::*;
+use multimint::types::InfoResponse;
+use tailwind_fuse::tw_merge;
+
+use crate::components::ui::*;
+use crate::util::state::AppState;
 
 #[component]
-pub fn FederationItem() -> Element {
+pub fn FederationItem(info: InfoResponse) -> Element {
+    let mut state = use_context::<Signal<AppState>>();
+
+    let class = tw_merge!(
+        "p-1 flex gap-2 items-center rounded bg-background hover:bg-secondary cursor-pointer ring-offset-background transition-colors focus-fixible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        if state.read().active_federation_id == Some(info.federation_id) {
+            "bg-secondary"
+        } else {
+            ""
+        }
+    );
+
+    let name: String = if let Some(n) = info.meta.get("federation_name") {
+        n.to_string()
+    } else {
+        info.federation_id.to_string().chars().take(6).collect()
+    };
+
+    // TODO: fetch and populate meta from external URL
+    let icon: String = if let Some(i) = info.meta.get("fedi:federation_icon_url") {
+        i.to_string()
+    } else if let Some(i) = info.meta.get("federation_icon_url") {
+        i.to_string()
+    } else {
+        "federation.png".to_string()
+    };
+
+    let switch_active_federation = move |_| {
+        state.write().active_federation_id = Some(info.federation_id);
+    };
+
+    use_effect(move || {
+        println!("{:?}", info.meta);
+    });
+
     rsx! {
-        div {
+        div { class, onclick: switch_active_federation,
+            img {
+                class: "border rounded-lg",
+                src: "{icon}",
+                alt: "Federation Icon",
+                width: 36,
+                height: 36
+            }
+            Text { "{name}" }
         }
     }
 }

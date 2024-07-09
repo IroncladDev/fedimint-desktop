@@ -4,34 +4,55 @@ module.exports = {
   darkMode: ["class"],
   content: ["./src/**/*.{rs,html,css}", "./dist/**/*.html"],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors: {
-        root: "var(--bg-root)",
-        default: "var(--bg-default)",
-        higher: "var(--bg-higher)",
-        highest: "var(--bg-highest)",
-        foreground: {
-          DEFAULT: "var(--fg-default)",
-          default: "var(--fg-default)",
-          dimmer: "var(--fg-dimmer)",
-          dimmest: "var(--fg-dimmest)",
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
-        outline: {
-          DEFAULT: "var(--outline-default)",
-          root: "var(--outline-root)",
-          default: "var(--outline-default)",
-          higher: "var(--outline-higher)",
-          highest: "var(--outline-highest)",
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "var(--accent-default)",
-          root: "var(--accent-root)",
-          default: "var(--accent-default)",
-          dimmer: "var(--accent-higher)",
-          dimmest: "var(--accent-highest)",
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };

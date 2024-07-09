@@ -2,14 +2,11 @@
 use dioxus::prelude::*;
 use tailwind_fuse::*;
 
-use crate::util::types::Elevation;
-
 #[derive(Props, Clone, PartialEq)]
 pub struct ButtonProps {
     pub onclick: EventHandler<MouseEvent>,
     pub size: Option<ButtonSize>,
     pub variant: Option<ButtonVariant>,
-    pub elevation: Option<Elevation>,
     pub class: Option<String>,
     pub disabled: Option<bool>,
     pub children: Element,
@@ -26,29 +23,28 @@ pub enum ButtonSize {
 #[derive(Clone, PartialEq)]
 pub enum ButtonVariant {
     Default,
-    Filled,
+    Destructive,
     Outline,
+    Secondary,
+    Ghost,
+    Link,
 }
 
 pub fn Button(props: ButtonProps) -> Element {
     let class = tw_merge!(
-        "inline-flex gap-2 items-center justify-center whitespace-nowrap rounded-lg transition-colors disabled:pointer-events-none disabled:opacity-50 outline-none text-foreground border-2",
+        "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
         match props.size {
-            Some(ButtonSize::Sm) => "h-8 rounded-md px-2 py-1 text-xs",
-            Some(ButtonSize::Lg) => "h-12 rounded-xl px-8 text-base",
-            Some(ButtonSize::Icon) => "h-8 w-8",
+            Some(ButtonSize::Sm) => "h-9 rounded-md px-3",
+            Some(ButtonSize::Lg) => "h-11 rounded-md px-8",
+            Some(ButtonSize::Icon) => "h-10 w-10",
             _ => "h-10 px-4 py-2"
         },
         match props.variant {
-            Some(ButtonVariant::Outline) => "!bg-transparent border-solid",
-            Some(ButtonVariant::Filled) => "border-hidden",
-            _ => "border-solid"
-        },
-        match props.elevation {
-            Some(Elevation::Root) => "border-outline-root bg-root hover:bg-default hover:border-outline-default",
-            Some(Elevation::Higher) => "border-outline-higher bg-higher hover:bg-highest: hover:border-outline-highest",
-            Some(Elevation::Highest) => "border-outline-highest bg-highest hover:bg-higher hover:border-outline-higher",
-            _ => "border-outline-default bg-default hover:bg-higher hover:border-outline-higher"
+            Some(ButtonVariant::Destructive) => "bg-destructive text-destructive-foreground",
+            Some(ButtonVariant::Outline) => "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+            Some(ButtonVariant::Secondary) => "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+            Some(ButtonVariant::Ghost) => "hover:bg-accent hover:text-accent-foreground",
+            _ => "bg-primary text-primary-foreground hover:bg-primary/90"
         },
         match props.disabled {
             Some(true) => "opacity-50",

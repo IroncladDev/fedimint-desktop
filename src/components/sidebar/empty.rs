@@ -1,18 +1,12 @@
 use dioxus::prelude::*;
 
-use crate::components::ui::Button;
+use crate::components::ui::*;
 
 #[component]
-pub fn Empty() -> Element {
-    let mut add_federation_modal = use_context::<Signal<bool>>();
-
-    let toggle_modal = move |_| {
-        *add_federation_modal.write() = true;
-    };
-
+pub fn Empty(add_federation_dialog: Signal<bool>) -> Element {
     rsx! {
-        div {
-            Button { onclick: toggle_modal, "click {add_federation_modal.read()}" }
+        Flex { 
+            Button { onclick: move |_| add_federation_dialog.set(true), "Add a Federation" }
         }
     }
 }

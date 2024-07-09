@@ -4,50 +4,73 @@
 
 @layer base {
   #app {
-    --bg-root: #d1d5db;
-    --bg-default: #e5e7eb;
-    --bg-higher: #f3f4f6;
-    --bg-highest: #f9fafb;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-    --fg-dimmest: #4b5563;
-    --fg-dimmer: #1f2937;
-    --fg-default: #000;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-    --outline-root: #4b5563;
-    --outline-default: #6b7280;
-    --outline-higher: #9ca3af;
-    --outline-highest: #d1d5db;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    --accent-root: #0369a1;
-    --accent-default: #0284c7;
-    --accent-higher: #0ea5e9;
-    --accent-highest: #38bdf8;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
 
-    background: var(--bg-root);
-    color: var(--fg-default);
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
   }
 
   #app.dark {
-    --bg-root: #030712;
-    --bg-default: #111827;
-    --bg-higher: #1f2937;
-    --bg-highest: #374151;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
 
-    --fg-root: #9ca3af;
-    --fg-dimmer: #e5e7eb;
-    --fg-default: #fff;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
 
-    --outline-root: #1f2937;
-    --outline-default: #374151;
-    --outline-higher: #4b5563;
-    --outline-highest: #6b7280;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
 
-    --accent-root: #082f49;
-    --accent-default: #075985;
-    --accent-higher: #0284c7;
-    --accent-highest: #0ea5e9;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
 
-    background: var(--bg-root);
-    color: var(--fg-default);
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  #app {
+    @apply bg-background text-foreground;
   }
 }

@@ -1,8 +1,8 @@
 pub mod code;
 pub mod dashboards;
+pub mod dialog;
 pub mod grid;
 pub mod layout;
-pub mod modal;
 pub mod no_federation;
 pub mod sidebar;
 pub mod tabs;
