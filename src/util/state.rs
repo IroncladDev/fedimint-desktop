@@ -18,7 +18,7 @@ pub struct AppState {
     pub theme: Theme,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum Theme {
     Light,
     Dark,

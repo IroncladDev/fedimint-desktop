@@ -9,11 +9,13 @@ Run `mprocs` in the terminal. Ensure you have cargo, bun, and mprocs installed.
   - [x] Dark
 - [ ] Sidebar
   - [x] Add Federations
-  - [ ] Remove Federations
   - [x] Switch Federations
-  - [ ] Proper Loading States
-  - [ ] Responsive, toggleable
-- [ ] Github ci actions for building for multiple machines (Nix for deps)
+  - [ ] Popover Options
+      - [ ] Remove Federations
+      - [ ] Invite / QR Code
+  - [ ] Polish
+      - [ ] Proper Loading States
+      - [ ] Responsive, toggleable
 - [ ] Widgets
   - [ ] Admin
     - [ ] Info
@@ -38,6 +40,7 @@ Run `mprocs` in the terminal. Ensure you have cargo, bun, and mprocs installed.
   - [ ] Onchain
     - [ ] await
     - [ ] create_invoice
+- [ ] Github ci actions for building for multiple machines (Nix for deps)
 
 ## Future Plans
 

@@ -1,12 +1,16 @@
 use dioxus::prelude::*;
+use dioxus_free_icons::icons::ld_icons::{LdEllipsisVertical, LdLogOut, LdQrCode};
+use dioxus_free_icons::Icon;
 use multimint::types::InfoResponse;
 use tailwind_fuse::tw_merge;
 
+use crate::components::dialog::Dialog;
 use crate::components::ui::*;
-use crate::util::state::AppState;
+use crate::util::state::{AppState, Theme};
 
 #[component]
 pub fn FederationItem(info: InfoResponse) -> Element {
+    let mut qr_open = use_signal(|| false);
     let mut state = use_context::<Signal<AppState>>();
 
     let class = tw_merge!(
@@ -29,17 +33,15 @@ pub fn FederationItem(info: InfoResponse) -> Element {
         i.to_string()
     } else if let Some(i) = info.meta.get("federation_icon_url") {
         i.to_string()
+    } else if state.read().theme == Theme::Light {
+        "federation-light.png".to_string()
     } else {
-        "federation.png".to_string()
+        "federation-dark.png".to_string()
     };
 
     let switch_active_federation = move |_| {
         state.write().active_federation_id = Some(info.federation_id);
     };
-
-    use_effect(move || {
-        println!("{:?}", info.meta);
-    });
 
     rsx! {
         div { class, onclick: switch_active_federation,
@@ -50,7 +52,43 @@ pub fn FederationItem(info: InfoResponse) -> Element {
                 width: 36,
                 height: 36
             }
-            Text { "{name}" }
+            Text { class: "grow", "{name}" }
+            Popover {
+                PopoverTrigger {
+                    Icon {
+                        width: 16,
+                        height: 16,
+                        class: "text-muted-foreground",
+                        icon: LdEllipsisVertical
+                    }
+                }
+                PopoverContent {
+                    Flex { col: true,
+                        FederationOption { onclick: move |_| { qr_open.set(!qr_open()) },
+                            Icon { width: 16, height: 16, class: "text-foreground", icon: LdQrCode }
+                            Text { size: TextSize::Sm, "Invite" }
+                        }
+                        FederationOption { onclick: move |_| {},
+                            Icon { width: 16, height: 16, class: "text-foreground", icon: LdLogOut }
+                            Text { size: TextSize::Sm, "Leave Federation" }
+                        }
+                    }
+                }
+            }
+        }
+        Dialog { open: qr_open, title: "Invite",
+            QRCode { value: info.federation_id }
+        }
+    }
+}
+
+#[component]
+pub fn FederationOption(children: Element, onclick: EventHandler<MouseEvent>) -> Element {
+    rsx! {
+        button {
+            class: "flex gap-2 items-center rounded bg-popover text-popover-foreground hover:bg-muted transition-colors w-full px-2 py-1",
+            onclick: move |e| onclick.call(e),
+            {children}
         }
     }
 }

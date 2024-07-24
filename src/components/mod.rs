@@ -1,4 +1,3 @@
-pub mod code;
 pub mod dashboards;
 pub mod dialog;
 pub mod grid;

@@ -7,7 +7,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-dioxus = { version = "0.5", features = ["desktop", "router", "html"] }
+dioxus = { version = "0.5.1", features = ["desktop", "router", "html"] }
 tracing = "0.1.40"
 dioxus-logger = "0.5.0"
 dioxus-cli = "0.5.4"
@@ -21,6 +21,9 @@ multimint = { path = "../fedimint-clientd/multimint" }
 futures-util = "0.3.30"
 tokio = { version = "1.34.0", features = ["full"] }
 anyhow = "1.0.86"
+dioxus-free-icons = { version = "0.8.6", features = ["lucide"] }
+qrcode-generator = "4.1.9"
+base64 = "0.22.1"
 
 [features]
 bundle = []
