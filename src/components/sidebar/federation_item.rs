@@ -7,7 +7,7 @@ use tailwind_fuse::tw_merge;
 use crate::components::dialog::Dialog;
 use crate::components::ui::*;
 use crate::util::meta::get_federation_icon;
-use crate::util::state::{AppState, Theme};
+use crate::util::state::AppState;
 
 #[component]
 pub fn FederationItem(info: InfoResponse) -> Element {

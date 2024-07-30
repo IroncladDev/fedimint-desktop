@@ -105,9 +105,11 @@ pub fn Sidebar() -> Element {
             if federations.is_empty() {
                 Empty { add_federation_dialog }
             } else {
-                Flex { col: true, gap: 2, grow: true,
-                    for (_ , info) in federations {
-                        FederationItem { info: info.clone() }
+                Flex { col: true, grow: true,
+                    Flex { col: true, gap: 2, class: "inset-0 overflow-y-auto",
+                        for (_ , info) in federations {
+                            FederationItem { info: info.clone() }
+                        }
                     }
                 }
                 Flex { 

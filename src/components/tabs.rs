@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 use dioxus_free_icons::{
-    icons::ld_icons::{LdArrowRightFromLine, LdMenu},
+    icons::ld_icons::{LdArrowRightFromLine, LdInfo, LdLandmark, LdLink, LdMenu, LdZap},
     Icon,
 };
 
@@ -12,9 +12,9 @@ use crate::{
 #[component]
 pub fn Tabs() -> Element {
     rsx! {
-        div { class: "flex gap-2 items-center w-full p-2 border-b",
-            Flex { grow: true, FederationIndicator {} }
-            Flex { gap: 2, align: FlexPosition::Center,
+        div { class: "flex gap-2 items-center w-full border-b",
+            Flex { p: 2, grow: true, FederationIndicator {} }
+            Flex { align: FlexPosition::End, class: "px-2 self-end",
                 TabItem { tab: Tab::Admin }
                 TabItem { tab: Tab::Lightning }
                 TabItem { tab: Tab::Mint }
@@ -35,14 +35,12 @@ fn TabItem(tab: Tab) -> Element {
         let _ = &state.write().switch_tab(tab_cloned.clone());
     };
 
-    let class_name = if current_tab == tab {
-        "text-blue-500"
-    } else {
-        "text-white"
-    };
+    let class_name = if current_tab == tab { "bg-muted" } else { "" };
 
     rsx! {
-        button { class: "grow {class_name}", onclick: switch_tab,
+        button {
+            class: "grow border border-b-0 {class_name} rounded-t-lg px-2 py-1 text-left inline-flex gap-2 items-center text-sm",
+            onclick: switch_tab,
             TabContent { tab }
         }
     }
@@ -50,13 +48,23 @@ fn TabItem(tab: Tab) -> Element {
 
 #[component]
 fn TabContent(tab: Tab) -> Element {
-    rsx! {
-        match tab {
-            Tab::Admin => "admin",
-            Tab::Lightning => "lightning",
-            Tab::Mint => "Mint",
-            Tab::Onchain => "Onchain"
-        }
+    match tab {
+        Tab::Admin => rsx! {
+            Icon { width: 16, height: 16, class: "text-muted-foreground", icon: LdInfo }
+            "Info"
+        },
+        Tab::Lightning => rsx! {
+            Icon { width: 16, height: 16, class: "text-muted-foreground", icon: LdZap }
+            "Lightning"
+        },
+        Tab::Mint => rsx! {
+            Icon { width: 16, height: 16, class: "text-muted-foreground", icon: LdLandmark }
+            "Mint"
+        },
+        Tab::Onchain => rsx! {
+            Icon { width: 16, height: 16, class: "text-muted-foreground", icon: LdLink }
+            "Onchain"
+        },
     }
 }
 
@@ -69,7 +77,7 @@ fn FederationIndicator() -> Element {
 
     if active_federation.is_none() {
         return rsx! {
-            ToggleButton {
+            ToggleButton { 
                 Icon { width: 16, height: 16, class: "text-muted-foreground", icon: LdMenu }
             }
         };
@@ -88,9 +96,14 @@ fn FederationIndicator() -> Element {
     };
 
     rsx! {
-        ToggleButton {
+        ToggleButton { 
             if !state_read.sidebar_open {
-                Icon { width: 16, height: 16, class: "text-muted-foreground", icon: LdArrowRightFromLine }
+                Icon {
+                    width: 16,
+                    height: 16,
+                    class: "text-muted-foreground",
+                    icon: LdArrowRightFromLine
+                }
             }
             img { src, class: "w-6 h-6 rounded-full border" }
             Text { "{name}" }

@@ -77,13 +77,13 @@
 
 @layer components {
   .popover {
-    @apply relative inline-block;
+    @apply relative flex gap-2 items-center;
   }
 
   .popover-content {
     display: none;
     z-index: 1;
-    @apply absolute bg-popover border p-1 rounded-md shadow-md;
+    @apply fixed bg-popover border p-1 rounded-md shadow-md z-10;
   }
 
   .popover:focus-within .popover-content, .popover-content:focus-within {
