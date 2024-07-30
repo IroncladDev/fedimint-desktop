@@ -5,6 +5,7 @@ mod components;
 mod routes;
 mod util;
 
+use components::toast::Toast;
 use dioxus::prelude::*;
 use routes::Route;
 use tailwind_fuse::tw_merge;
@@ -64,5 +65,6 @@ fn Content(state: AppState) -> Element {
 
     rsx! {
         div { class, id: "app", Router::<Route> {} }
+        Toast {}
     }
 }

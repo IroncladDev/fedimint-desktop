@@ -32,7 +32,7 @@ pub enum ButtonVariant {
 
 pub fn Button(props: ButtonProps) -> Element {
     let class = tw_merge!(
-        "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+        "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-50",
         match props.size {
             Some(ButtonSize::Sm) => "h-9 rounded-md px-3",
             Some(ButtonSize::Lg) => "h-11 rounded-md px-8",
@@ -54,6 +54,6 @@ pub fn Button(props: ButtonProps) -> Element {
     );
 
     rsx! {
-        button { class, onclick: move |e| props.onclick.call(e), {props.children} }
+        button { class, disabled: props.disabled, onclick: move |e| props.onclick.call(e), {props.children} }
     }
 }

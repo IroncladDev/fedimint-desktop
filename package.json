@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "tailwind": "bunx tailwindcss -i ./src/input.css -o ./assets/tailwind.css --watch"
+  }
+}

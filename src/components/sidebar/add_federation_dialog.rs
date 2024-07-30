@@ -1,11 +1,7 @@
-use std::collections::BTreeMap;
 use std::str::FromStr;
 
 use dioxus::prelude::*;
-use multimint::{
-    fedimint_core::{api::InviteCode, config::FederationId},
-    types::InfoResponse,
-};
+use multimint::fedimint_core::api::InviteCode;
 
 use crate::{
     components::{dialog::Dialog, ui::*},
@@ -13,10 +9,7 @@ use crate::{
 };
 
 #[component]
-pub fn AddFederationDialog(
-    federations: Signal<BTreeMap<FederationId, InfoResponse>>,
-    add_federation_dialog: Signal<bool>,
-) -> Element {
+pub fn AddFederationDialog(add_federation_dialog: Signal<bool>) -> Element {
     let mut state = use_context::<Signal<AppState>>();
     let mut is_joining = use_signal::<bool>(|| false);
     let mut invite_code = use_signal::<String>(|| "".to_string());
@@ -29,7 +22,7 @@ pub fn AddFederationDialog(
             match res {
                 Ok(_) => {
                     let info = state.read().multimint.info().await.unwrap();
-                    federations.set(info);
+                    state.write().federations = info;
                     state
                         .write()
                         .toast

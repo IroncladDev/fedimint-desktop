@@ -24,6 +24,7 @@ anyhow = "1.0.86"
 dioxus-free-icons = { version = "0.8.6", features = ["lucide"] }
 qrcode-generator = "4.1.9"
 base64 = "0.22.1"
+reqwest = "0.12.5"
 
 [features]
 bundle = []

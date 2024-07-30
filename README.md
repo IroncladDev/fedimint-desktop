@@ -11,8 +11,8 @@ Run `mprocs` in the terminal. Ensure you have cargo, bun, and mprocs installed.
   - [x] Add Federations
   - [x] Switch Federations
   - [ ] Popover Options
-      - [ ] Remove Federations
-      - [ ] Invite / QR Code
+      - [~] Remove Federations
+      - [x] Invite / QR Code
   - [ ] Polish
       - [ ] Proper Loading States
       - [ ] Responsive, toggleable

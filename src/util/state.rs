@@ -10,11 +10,18 @@ use multimint::{
 
 #[derive(Clone, Debug)]
 pub struct AppState {
+    // Multimint stuff
     pub fm_db_path: String,
     pub multimint: MultiMint,
+
+    // Sidebar
+    pub active_federation_id: Option<FederationId>,
+    pub federations: BTreeMap<FederationId, InfoResponse>,
+    pub sidebar_open: bool,
+
+    // UI
     pub tab: Tab,
     pub toast: Toast,
-    pub active_federation_id: Option<FederationId>,
     pub theme: Theme,
 }
 
@@ -62,7 +69,9 @@ impl AppState {
             } else {
                 Some(federation_ids[0])
             },
+            federations: BTreeMap::new(),
             theme: Theme::Dark,
+            sidebar_open: true,
         })
     }
 

@@ -6,6 +6,7 @@ use tailwind_fuse::tw_merge;
 
 use crate::components::dialog::Dialog;
 use crate::components::ui::*;
+use crate::util::meta::get_federation_icon;
 use crate::util::state::{AppState, Theme};
 
 #[component]
@@ -14,7 +15,7 @@ pub fn FederationItem(info: InfoResponse) -> Element {
     let mut state = use_context::<Signal<AppState>>();
 
     let class = tw_merge!(
-        "p-1 flex gap-2 items-center rounded bg-background hover:bg-secondary cursor-pointer ring-offset-background transition-colors focus-fixible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        "p-1 flex gap-2 items-center rounded-lg bg-background hover:bg-secondary cursor-pointer ring-offset-background transition-colors focus-fixible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         if state.read().active_federation_id == Some(info.federation_id) {
             "bg-secondary"
         } else {
@@ -29,32 +30,36 @@ pub fn FederationItem(info: InfoResponse) -> Element {
     };
 
     // TODO: fetch and populate meta from external URL
-    let icon: String = if let Some(i) = info.meta.get("fedi:federation_icon_url") {
-        i.to_string()
-    } else if let Some(i) = info.meta.get("federation_icon_url") {
-        i.to_string()
-    } else if state.read().theme == Theme::Light {
-        "federation-light.png".to_string()
-    } else {
-        "federation-dark.png".to_string()
-    };
+    let icon: String = get_federation_icon(info.clone(), Some(state.read().theme.clone()));
 
     let switch_active_federation = move |_| {
         state.write().active_federation_id = Some(info.federation_id);
     };
 
+    let remove_federation = move |_| {
+        spawn(async move {
+            // Does not actually write to the db yet. Waiting on next version of multimint
+            state.write().multimint.remove(&info.federation_id).await;
+            state.write().federations.remove(&info.federation_id);
+
+            if info.federation_id == state.read().active_federation_id.unwrap() {
+                state.write().active_federation_id = None;
+            }
+        });
+    };
+
     rsx! {
         div { class, onclick: switch_active_federation,
             img {
-                class: "border rounded-lg",
+                class: "border rounded-md aspect-square",
                 src: "{icon}",
                 alt: "Federation Icon",
                 width: 36,
                 height: 36
             }
             Text { class: "grow", "{name}" }
-            Popover {
-                PopoverTrigger {
+            Popover { 
+                PopoverTrigger { 
                     Icon {
                         width: 16,
                         height: 16,
@@ -62,13 +67,15 @@ pub fn FederationItem(info: InfoResponse) -> Element {
                         icon: LdEllipsisVertical
                     }
                 }
-                PopoverContent {
+                PopoverContent { 
                     Flex { col: true,
-                        FederationOption { onclick: move |_| { qr_open.set(!qr_open()) },
-                            Icon { width: 16, height: 16, class: "text-foreground", icon: LdQrCode }
-                            Text { size: TextSize::Sm, "Invite" }
+                        if info.meta.contains_key("invite_code") {
+                            FederationOption { onclick: move |_| { qr_open.set(!qr_open()) },
+                                Icon { width: 16, height: 16, class: "text-foreground", icon: LdQrCode }
+                                Text { size: TextSize::Sm, "Invite" }
+                            }
                         }
-                        FederationOption { onclick: move |_| {},
+                        FederationOption { onclick: remove_federation,
                             Icon { width: 16, height: 16, class: "text-foreground", icon: LdLogOut }
                             Text { size: TextSize::Sm, "Leave Federation" }
                         }
@@ -76,8 +83,10 @@ pub fn FederationItem(info: InfoResponse) -> Element {
                 }
             }
         }
-        Dialog { open: qr_open, title: "Invite",
-            QRCode { value: info.federation_id }
+        if let Some(invite_code) = info.meta.get("invite_code") {
+            Dialog { open: qr_open, title: "Invite",
+                QRCode { value: invite_code }
+            }
         }
     }
 }
