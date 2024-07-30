@@ -7,15 +7,15 @@ Run `mprocs` in the terminal. Ensure you have cargo, bun, and mprocs installed.
 - [x] Fine-tune UI theme (Just jumped for shadcn)
   - [x] Light
   - [x] Dark
-- [ ] Sidebar
+- [x] Sidebar
   - [x] Add Federations
   - [x] Switch Federations
-  - [ ] Popover Options
+  - [x] Popover Options
       - [~] Remove Federations
       - [x] Invite / QR Code
-  - [ ] Polish
-      - [ ] Proper Loading States
-      - [ ] Responsive, toggleable
+  - [x] Polish
+      - [x] Proper Loading States
+      - [x] Responsive, toggleable
 - [ ] Widgets
   - [ ] Admin
     - [ ] Info
