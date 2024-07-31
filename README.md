@@ -19,7 +19,9 @@ Run `mprocs` in the terminal. Ensure you have cargo, bun, and mprocs installed.
 - [ ] Widgets
   - [ ] Admin
     - [ ] Info
+    - [ ] Meta
     - [ ] Operations
+    - [ ] Denominations
   - [ ] Lightning
     - [ ] await
     - [ ] claim_tweaks

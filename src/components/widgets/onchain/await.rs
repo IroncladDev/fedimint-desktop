@@ -4,6 +4,6 @@ use dioxus::prelude::*;
 #[component]
 pub fn Await() -> Element {
     rsx! {
-        Widget { "await" }
+        Widget { title: "Await Onchain Transaction", "e" }
     }
 }

@@ -2,8 +2,8 @@ use crate::components::widget::Widget;
 use dioxus::prelude::*;
 
 #[component]
-pub fn Decode() -> Element {
+pub fn Pay() -> Element {
     rsx! {
-        Widget { "decode" }
+        Widget { title: "Pay Invoice", "e" }
     }
 }

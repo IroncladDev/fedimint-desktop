@@ -12,11 +12,11 @@ use onchain::OnchainDashboard;
 use crate::util::{state::AppState, types::Tab};
 
 #[component]
-pub fn Dashboards() -> Element {
+pub fn Widgets() -> Element {
     let state = use_context::<Signal<AppState>>();
 
     rsx! {
-        match state.read().tab {
+        match state().tab {
             Tab::Admin => rsx! {AdminDashboard {}},
             Tab::Lightning => rsx! {LightningDashboard {}},
             Tab::Mint => rsx! {MintDashboard {}},

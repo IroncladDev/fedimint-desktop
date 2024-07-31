@@ -2,8 +2,8 @@ use crate::components::widget::Widget;
 use dioxus::prelude::*;
 
 #[component]
-pub fn Combine() -> Element {
+pub fn TweakInvoice() -> Element {
     rsx! {
-        Widget { "combine" }
+        Widget { title: "Create Tweaked Invoice" }
     }
 }

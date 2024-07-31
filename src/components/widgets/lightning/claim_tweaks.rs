@@ -2,8 +2,8 @@ use crate::components::widget::Widget;
 use dioxus::prelude::*;
 
 #[component]
-pub fn Encode() -> Element {
+pub fn ClaimTweaks() -> Element {
     rsx! {
-        Widget { "encode" }
+        Widget { title: "Claim Tweaks", "e" }
     }
 }

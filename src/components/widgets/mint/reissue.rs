@@ -2,8 +2,8 @@ use crate::components::widget::Widget;
 use dioxus::prelude::*;
 
 #[component]
-pub fn Gateways() -> Element {
+pub fn Reissue() -> Element {
     rsx! {
-        Widget { "gateways" }
+        Widget { title: "Reissue Notes", "e" }
     }
 }

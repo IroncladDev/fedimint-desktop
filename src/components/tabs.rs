@@ -28,7 +28,7 @@ pub fn Tabs() -> Element {
 fn TabItem(tab: Tab) -> Element {
     let mut state = use_context::<Signal<AppState>>();
 
-    let current_tab = state.read().tab.clone();
+    let current_tab = state().tab.clone();
     let tab_cloned = tab.clone();
 
     let switch_tab = move |_| {
@@ -97,7 +97,7 @@ fn FederationIndicator() -> Element {
 
     rsx! {
         ToggleButton { 
-            if !state_read.sidebar_open {
+            if !state().sidebar_open {
                 Icon {
                     width: 16,
                     height: 16,

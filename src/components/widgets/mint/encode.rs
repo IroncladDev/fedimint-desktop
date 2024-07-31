@@ -2,8 +2,8 @@ use crate::components::widget::Widget;
 use dioxus::prelude::*;
 
 #[component]
-pub fn Invoice() -> Element {
+pub fn Encode() -> Element {
     rsx! {
-        Widget { "create invoice" }
+        Widget { title: "Encode Notes", "e" }
     }
 }

@@ -15,8 +15,8 @@ pub fn FederationItem(info: InfoResponse) -> Element {
     let mut state = use_context::<Signal<AppState>>();
 
     let class = tw_merge!(
-        "p-1 flex gap-2 items-center rounded-lg bg-background hover:bg-secondary cursor-pointer ring-offset-background transition-colors focus-fixible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        if state.read().active_federation_id == Some(info.federation_id) {
+        "p-1 flex gap-2 items-center rounded-xl bg-background hover:bg-secondary cursor-pointer ring-offset-background transition-colors focus-fixible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        if state().active_federation_id == Some(info.federation_id) {
             "bg-secondary"
         } else {
             ""
@@ -30,7 +30,7 @@ pub fn FederationItem(info: InfoResponse) -> Element {
     };
 
     // TODO: fetch and populate meta from external URL
-    let icon: String = get_federation_icon(info.clone(), Some(state.read().theme.clone()));
+    let icon: String = get_federation_icon(info.clone(), Some(state().theme.clone()));
 
     let switch_active_federation = move |_| {
         state.write().active_federation_id = Some(info.federation_id);
@@ -42,7 +42,7 @@ pub fn FederationItem(info: InfoResponse) -> Element {
             state.write().multimint.remove(&info.federation_id).await;
             state.write().federations.remove(&info.federation_id);
 
-            if info.federation_id == state.read().active_federation_id.unwrap() {
+            if info.federation_id == state().active_federation_id.unwrap() {
                 state.write().active_federation_id = None;
             }
         });
@@ -51,7 +51,7 @@ pub fn FederationItem(info: InfoResponse) -> Element {
     rsx! {
         div { class, onclick: switch_active_federation,
             img {
-                class: "border rounded-md aspect-square",
+                class: "border rounded-lg aspect-square bg-white",
                 src: "{icon}",
                 alt: "Federation Icon",
                 width: 36,

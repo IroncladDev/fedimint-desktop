@@ -21,7 +21,7 @@ pub fn AddFederationDialog(add_federation_dialog: Signal<bool>) -> Element {
             let res = state.write().multimint.register_new(invite, None).await;
             match res {
                 Ok(_) => {
-                    let info = state.read().multimint.info().await.unwrap();
+                    let info = state().multimint.info().await.unwrap();
                     state.write().federations = info;
                     state
                         .write()
@@ -47,7 +47,7 @@ pub fn AddFederationDialog(add_federation_dialog: Signal<bool>) -> Element {
                     label { r#for: "federation_invite", "Federation Invite Code" }
                     Input {
                         id: "federation_invite",
-                        value: invite_code.read(),
+                        value: invite_code(),
                         oninput: move |e: Event<FormData>| invite_code.set(e.value()),
                         placeholder: "fed1..."
                     }

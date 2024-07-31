@@ -2,8 +2,8 @@ use crate::components::widget::Widget;
 use dioxus::prelude::*;
 
 #[component]
-pub fn TweakInvoice() -> Element {
+pub fn Spend() -> Element {
     rsx! {
-        Widget { "tweak invoice" }
+        Widget { title: "Spend Notes", "e" }
     }
 }

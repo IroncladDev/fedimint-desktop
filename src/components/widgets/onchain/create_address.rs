@@ -2,8 +2,8 @@ use crate::components::widget::Widget;
 use dioxus::prelude::*;
 
 #[component]
-pub fn Pay() -> Element {
+pub fn CreateAddress() -> Element {
     rsx! {
-        Widget { "pay" }
+        Widget { title: "Create Onchain Address", "e" }
     }
 }

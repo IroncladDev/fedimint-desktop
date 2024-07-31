@@ -2,8 +2,8 @@ use crate::components::widget::Widget;
 use dioxus::prelude::*;
 
 #[component]
-pub fn Spend() -> Element {
+pub fn Combine() -> Element {
     rsx! {
-        Widget { "spend notes" }
+        Widget { title: "Combine Notes", "e" }
     }
 }

@@ -57,7 +57,7 @@ fn Content(state: AppState) -> Element {
 
     let class = tw_merge!(
         "flex grow min-h-screen w-full",
-        match app_state.read().theme {
+        match app_state().theme {
             Theme::Light => "",
             Theme::Dark => "dark",
         }

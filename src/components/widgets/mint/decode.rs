@@ -2,8 +2,8 @@ use crate::components::widget::Widget;
 use dioxus::prelude::*;
 
 #[component]
-pub fn Split() -> Element {
+pub fn Decode() -> Element {
     rsx! {
-        Widget { "split" }
+        Widget { title: "Decode Notes", "e" }
     }
 }

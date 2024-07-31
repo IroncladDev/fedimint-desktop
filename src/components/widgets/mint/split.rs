@@ -2,8 +2,8 @@ use crate::components::widget::Widget;
 use dioxus::prelude::*;
 
 #[component]
-pub fn Reissue() -> Element {
+pub fn Split() -> Element {
     rsx! {
-        Widget { "reissue notes" }
+        Widget { title: "Split Notes", "e" }
     }
 }

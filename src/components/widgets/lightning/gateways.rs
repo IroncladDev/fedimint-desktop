@@ -2,8 +2,8 @@ use crate::components::widget::Widget;
 use dioxus::prelude::*;
 
 #[component]
-pub fn ClaimTweaks() -> Element {
+pub fn Gateways() -> Element {
     rsx! {
-        Widget { "claim tweaks" }
+        Widget { title: "Lightning Gateways", "e" }
     }
 }

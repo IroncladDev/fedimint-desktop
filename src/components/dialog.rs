@@ -2,7 +2,7 @@ use dioxus::prelude::*;
 
 #[component]
 pub fn Dialog(open: Signal<bool>, children: Element, title: Option<String>) -> Element {
-    let data_state = if *open.read() { "open" } else { "closed" };
+    let data_state = if open() { "open" } else { "closed" };
 
     rsx! {
         div { class: "data-[state=closed]:hidden", "data-state": data_state,

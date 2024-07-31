@@ -2,8 +2,8 @@ use crate::components::widget::Widget;
 use dioxus::prelude::*;
 
 #[component]
-pub fn Validate() -> Element {
+pub fn Await() -> Element {
     rsx! {
-        Widget { "validate" }
+        Widget { title: "Await Invoice", "e" }
     }
 }

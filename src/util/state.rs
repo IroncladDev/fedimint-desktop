@@ -3,25 +3,17 @@ use std::{collections::BTreeMap, fs};
 
 use super::types::*;
 use anyhow::Result;
-use multimint::{
-    fedimint_client::ClientHandleArc, fedimint_core::config::FederationId, types::InfoResponse,
-    MultiMint,
-};
+use multimint::{fedimint_core::config::FederationId, types::InfoResponse, MultiMint};
 
 #[derive(Clone, Debug)]
 pub struct AppState {
-    // Multimint stuff
     pub fm_db_path: String,
     pub multimint: MultiMint,
-
-    // Sidebar
+    pub tab: Tab,
+    pub toast: Toast,
     pub active_federation_id: Option<FederationId>,
     pub federations: BTreeMap<FederationId, InfoResponse>,
     pub sidebar_open: bool,
-
-    // UI
-    pub tab: Tab,
-    pub toast: Toast,
     pub theme: Theme,
 }
 
@@ -81,26 +73,5 @@ impl AppState {
 
     pub async fn get_federation_ids(&self) -> Vec<FederationId> {
         self.multimint.ids().await.into_iter().collect::<Vec<_>>()
-    }
-
-    pub async fn get_federation_info(&self) -> Result<BTreeMap<FederationId, InfoResponse>> {
-        self.multimint.info().await
-    }
-
-    pub async fn get_client_by_federation_id(
-        &self,
-        federation_id: FederationId,
-    ) -> Result<ClientHandleArc, String> {
-        match self.multimint.get(&federation_id).await {
-            Some(client) => Ok(client),
-            None => Err("No client found for federation id".to_string()),
-        }
-    }
-
-    pub async fn get_client(&self) -> Result<ClientHandleArc, String> {
-        match self.active_federation_id {
-            Some(id) => self.get_client_by_federation_id(id).await,
-            None => Err("Active Federation ID Not Set".to_string()),
-        }
     }
 }
