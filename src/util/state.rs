@@ -75,8 +75,4 @@ impl AppState {
     pub fn switch_tab(&mut self, tab: Tab) {
         self.tab = tab;
     }
-
-    pub async fn get_federation_ids(&self) -> Vec<FederationId> {
-        self.multimint.ids().await.into_iter().collect::<Vec<_>>()
-    }
 }

@@ -3,14 +3,15 @@
 
 mod components;
 mod routes;
+mod state;
 mod util;
 
 use components::ui::Toast;
 use dioxus::prelude::*;
 use routes::Route;
+use state::*;
 use tailwind_fuse::tw_merge;
 use tracing::Level;
-use util::state::{AppState, Theme};
 
 fn main() {
     // Init logger
@@ -23,15 +24,15 @@ fn main() {
 
 #[component]
 fn App() -> Element {
-    let initial_state = use_resource(move || async move { AppState::new().await });
+    let fedimint_instance = use_resource(move || async move { Fedimint::new().await });
 
     // TODO: Store state in config file and read to here
     let themed_class = tw_merge!("dark");
 
     rsx! {
-        match (initial_state.value())() {
-            Some(Ok(state)) => rsx! {
-                Content { state }
+        match (fedimint_instance.value())() {
+            Some(Ok(fedimint)) => rsx! {
+                Content { fedimint }
             },
             Some(Err(e)) => rsx! {
                 div {
@@ -50,14 +51,16 @@ fn App() -> Element {
 }
 
 #[component]
-fn Content(state: AppState) -> Element {
-    let app_state = use_signal::<AppState>(|| state);
+fn Content(fedimint: Fedimint) -> Element {
+    let state = use_signal::<AppState>(AppState::new);
+    let fedimint = use_signal::<Fedimint>(|| fedimint);
 
-    use_context_provider::<Signal<AppState>>(|| app_state);
+    use_context_provider::<Signal<AppState>>(|| state);
+    use_context_provider::<Signal<Fedimint>>(|| fedimint);
 
     let class = tw_merge!(
         "flex grow min-h-screen w-full",
-        match app_state().theme {
+        match state().theme {
             Theme::Light => "",
             Theme::Dark => "dark",
         }

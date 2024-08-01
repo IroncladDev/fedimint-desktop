@@ -1,7 +1,7 @@
 use dioxus::prelude::*;
 use dioxus_free_icons::{icons::ld_icons::LdCopy, Icon};
 
-use crate::util::state::AppState;
+use crate::state::*;
 
 #[component]
 pub fn CopyButton(value: String) -> Element {

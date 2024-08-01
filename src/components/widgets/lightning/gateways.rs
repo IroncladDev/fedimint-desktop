@@ -1,16 +1,15 @@
 use crate::components::ui::*;
 use crate::components::widget::Widget;
-use crate::util::state::AppState;
+use crate::state::*;
 use dioxus::prelude::*;
 use multimint::fedimint_ln_client::LightningClientModule;
 
 #[component]
 pub fn Gateways() -> Element {
-    let state = use_context::<Signal<AppState>>();
+    let fedimint = use_context::<Signal<Fedimint>>();
 
     let gateways = use_resource(move || async move {
-        let federation_id = state().active_federation_id.unwrap();
-        let client = state().multimint.get(&federation_id).await.unwrap();
+        let client = fedimint().get_multimint_client().await.unwrap();
         let lightning_module = client.get_first_module::<LightningClientModule>();
 
         lightning_module.list_gateways().await

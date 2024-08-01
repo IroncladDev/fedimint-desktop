@@ -1,7 +1,6 @@
+use crate::state::*;
 use dioxus::prelude::*;
 use dioxus_free_icons::{icons::ld_icons::LdCopy, Icon};
-
-use crate::util::state::AppState;
 
 #[component]
 pub fn Code(children: Element) -> Element {

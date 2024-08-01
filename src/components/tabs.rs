@@ -4,9 +4,10 @@ use dioxus_free_icons::{
     Icon,
 };
 
+use crate::state::*;
 use crate::{
     components::ui::*,
-    util::{meta::get_federation_icon, state::AppState, types::Tab},
+    util::{meta::get_federation_icon, types::Tab},
 };
 
 #[component]
@@ -71,22 +72,20 @@ fn TabContent(tab: Tab) -> Element {
 #[component]
 fn FederationIndicator() -> Element {
     let state = use_context::<Signal<AppState>>();
+    let fedimint = use_context::<Signal<Fedimint>>();
 
     let state_read = state.read();
-    let active_federation = state_read.active_federation_id;
+    let active_federation = fedimint().active_federation_id;
 
     if active_federation.is_none() {
         return rsx! {
-            ToggleButton { 
+            ToggleButton {
                 Icon { width: 16, height: 16, class: "text-muted-foreground", icon: LdMenu }
             }
         };
     }
 
-    let federation = state_read
-        .federations
-        .get(&active_federation.unwrap())
-        .unwrap();
+    let federation = fedimint().get_active_federation().unwrap();
 
     let src = get_federation_icon(federation.clone(), Some(state_read.theme.clone()));
     let name: String = if let Some(n) = federation.meta.get("federation_name") {
@@ -96,7 +95,7 @@ fn FederationIndicator() -> Element {
     };
 
     rsx! {
-        ToggleButton { 
+        ToggleButton {
             if !state().sidebar_open {
                 Icon {
                     width: 16,

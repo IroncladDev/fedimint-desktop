@@ -1,6 +1,6 @@
 use crate::components::ui::*;
 use crate::components::widget::Widget;
-use crate::util::state::AppState;
+use crate::state::*;
 use dioxus::prelude::*;
 use multimint::fedimint_core::core::OperationId;
 use multimint::fedimint_core::Amount;
@@ -11,6 +11,7 @@ use multimint::fedimint_ln_common::lightning_invoice::{
 
 #[component]
 pub fn Invoice() -> Element {
+    let fedimint = use_context::<Signal<Fedimint>>();
     let mut state = use_context::<Signal<AppState>>();
     let mut amount = use_signal(|| 0);
     let mut description = use_signal(String::new);
@@ -30,8 +31,7 @@ pub fn Invoice() -> Element {
 
         spawn(async move {
             loading.set(true);
-            let federation_id = state().active_federation_id.unwrap();
-            let client = state().multimint.get(&federation_id).await.unwrap();
+            let client = fedimint().get_multimint_client().await.unwrap();
             let lightning_module = client.get_first_module::<LightningClientModule>();
             let expiry_time = if expiry() == 0 { None } else { Some(expiry()) };
             let gateway = &lightning_module.list_gateways().await[0];

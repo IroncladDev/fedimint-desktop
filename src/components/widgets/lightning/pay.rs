@@ -1,13 +1,14 @@
 use crate::components::ui::*;
 use crate::components::widget::Widget;
+use crate::state::*;
 use crate::util::get_invoice::{get_invoice, LnPayRequest};
-use crate::util::state::AppState;
 use dioxus::prelude::*;
 use multimint::fedimint_core::Amount;
 use multimint::fedimint_ln_client::LightningClientModule;
 
 #[component]
 pub fn Pay() -> Element {
+    let fedimint = use_context::<Signal<Fedimint>>();
     let mut state = use_context::<Signal<AppState>>();
     let mut loading = use_signal(|| false);
     let mut payment_info = use_signal(String::new);
@@ -41,8 +42,7 @@ pub fn Pay() -> Element {
                 return;
             }
 
-            let federation_id = state().active_federation_id.unwrap();
-            let client = state().multimint.get(&federation_id).await.unwrap();
+            let client = fedimint().get_multimint_client().await.unwrap();
             let lightning_module = client.get_first_module::<LightningClientModule>();
             let gateways = lightning_module.list_gateways().await;
 

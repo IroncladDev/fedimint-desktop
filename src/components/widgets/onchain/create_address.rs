@@ -1,7 +1,8 @@
 use std::time::Duration;
 
 use crate::components::ui::*;
-use crate::{components::widget::Widget, util::state::AppState};
+use crate::components::widget::Widget;
+use crate::state::*;
 use dioxus::prelude::*;
 use multimint::fedimint_core::core::OperationId;
 use multimint::fedimint_ln_common::bitcoin::Address;
@@ -14,12 +15,12 @@ pub fn CreateAddress() -> Element {
     let mut loading = use_signal(|| false);
     let mut address = use_signal::<Option<(OperationId, Address)>>(|| None);
     let mut dialog = use_signal(|| false);
+    let fedimint = use_context::<Signal<Fedimint>>();
 
     let create_address = move |_| {
         spawn(async move {
             loading.set(true);
-            let federation_id = state().active_federation_id.unwrap();
-            let client = state().multimint.get(&federation_id).await.unwrap();
+            let client = fedimint().get_multimint_client().await.unwrap();
             let wallet_module = client.get_first_module::<WalletClientModule>();
             let res = wallet_module
                 .get_deposit_address(now() + Duration::from_secs(timeout()), ())

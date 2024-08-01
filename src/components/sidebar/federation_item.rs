@@ -5,17 +5,18 @@ use multimint::types::InfoResponse;
 use tailwind_fuse::tw_merge;
 
 use crate::components::ui::*;
+use crate::state::*;
 use crate::util::meta::get_federation_icon;
-use crate::util::state::AppState;
 
 #[component]
 pub fn FederationItem(info: InfoResponse) -> Element {
     let mut qr_open = use_signal(|| false);
-    let mut state = use_context::<Signal<AppState>>();
+    let state = use_context::<Signal<AppState>>();
+    let mut fedimint = use_context::<Signal<Fedimint>>();
 
     let class = tw_merge!(
         "p-1 flex gap-2 items-center rounded-xl bg-background hover:bg-secondary cursor-pointer ring-offset-background transition-colors focus-fixible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        if state().active_federation_id == Some(info.federation_id) {
+        if fedimint().active_federation_id == Some(info.federation_id) {
             "bg-secondary"
         } else {
             ""
@@ -32,18 +33,14 @@ pub fn FederationItem(info: InfoResponse) -> Element {
     let icon: String = get_federation_icon(info.clone(), Some(state().theme.clone()));
 
     let switch_active_federation = move |_| {
-        state.write().active_federation_id = Some(info.federation_id);
+        fedimint.write().active_federation_id = Some(info.federation_id);
     };
 
     let remove_federation = move |_| {
+        // TODO: remove function
         spawn(async move {
             // Does not actually write to the db yet. Waiting on next version of multimint
-            state.write().multimint.remove(&info.federation_id).await;
-            state.write().federations.remove(&info.federation_id);
-
-            if info.federation_id == state().active_federation_id.unwrap() {
-                state.write().active_federation_id = None;
-            }
+            fedimint.write().remove_federation(info.federation_id).await;
         });
     };
 

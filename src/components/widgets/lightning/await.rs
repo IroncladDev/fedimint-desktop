@@ -1,7 +1,8 @@
 use std::str::FromStr;
 
 use crate::components::ui::*;
-use crate::{components::widget::Widget, util::state::AppState};
+use crate::components::widget::Widget;
+use crate::state::*;
 use dioxus::prelude::*;
 use futures_util::StreamExt;
 use multimint::fedimint_core::core::OperationId;
@@ -12,12 +13,12 @@ pub fn Await() -> Element {
     let mut state = use_context::<Signal<AppState>>();
     let mut loading = use_signal(|| false);
     let mut operation_id = use_signal(String::new);
+    let fedimint = use_context::<Signal<Fedimint>>();
 
     let await_invoice = move |_| {
         spawn(async move {
             loading.set(true);
-            let federation_id = state().active_federation_id.unwrap();
-            let client = state().multimint.get(&federation_id).await.unwrap();
+            let client = fedimint().get_multimint_client().await.unwrap();
             let lightning_module = client.get_first_module::<LightningClientModule>();
 
             let mut updates = lightning_module

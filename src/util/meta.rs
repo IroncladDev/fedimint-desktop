@@ -1,6 +1,6 @@
 use multimint::types::InfoResponse;
 
-use super::state::Theme;
+use crate::Theme;
 
 pub fn get_federation_icon(info: InfoResponse, theme: Option<Theme>) -> String {
     if let Some(i) = info.meta.get("fedi:federation_icon_url") {

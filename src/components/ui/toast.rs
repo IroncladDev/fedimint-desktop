@@ -1,4 +1,4 @@
-use crate::util::state::AppState;
+use crate::state::AppState;
 use dioxus::prelude::*;
 use std::time::Duration;
 

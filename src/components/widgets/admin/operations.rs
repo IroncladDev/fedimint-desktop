@@ -1,15 +1,15 @@
 use dioxus::prelude::*;
 
 use crate::components::ui::*;
-use crate::{components::widget::Widget, util::state::AppState};
+use crate::components::widget::Widget;
+use crate::state::*;
 
 #[component]
 pub fn Operations() -> Element {
-    let state = use_context::<Signal<AppState>>();
+    let fedimint = use_context::<Signal<Fedimint>>();
 
     let operations = use_resource(move || async move {
-        let federation_id = state().active_federation_id.unwrap();
-        let client = state().multimint.get(&federation_id).await.unwrap();
+        let client = fedimint().get_multimint_client().await.unwrap();
 
         client.operation_log().list_operations(24, None).await
     });

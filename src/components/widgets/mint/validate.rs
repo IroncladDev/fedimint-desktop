@@ -1,11 +1,13 @@
 use crate::components::ui::*;
-use crate::{components::widget::Widget, util::state::AppState};
+use crate::components::widget::Widget;
+use crate::state::*;
 use dioxus::prelude::*;
 use multimint::fedimint_mint_client::{MintClientModule, OOBNotes};
 use std::str::FromStr;
 
 #[component]
 pub fn Validate() -> Element {
+    let fedimint = use_context::<Signal<Fedimint>>();
     let mut state = use_context::<Signal<AppState>>();
     let mut notes = use_signal(String::new);
     let mut loading = use_signal(|| false);
@@ -21,8 +23,7 @@ pub fn Validate() -> Element {
 
         spawn(async move {
             loading.set(true);
-            let federation_id = state().active_federation_id.unwrap();
-            let client = state().multimint.get(&federation_id).await.unwrap();
+            let client = fedimint().get_multimint_client().await.unwrap();
 
             let ecash_notes = OOBNotes::from_str(&notes()).unwrap();
             let amount_msat = client
