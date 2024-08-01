@@ -32,24 +32,21 @@ pub fn Await() -> Element {
                     DepositState::Confirmed(_) => {
                         state
                             .write()
-                            .toast
-                            .show("Onchain transaction confirmed".to_string());
+                            .toast("Onchain transaction confirmed".to_string());
                         fedimint.write().reload_active_federation().await;
                         loading.set(false);
                     }
                     DepositState::Claimed(_) => {
                         state
                             .write()
-                            .toast
-                            .show("Onchain transaction claimed".to_string());
+                            .toast("Onchain transaction claimed".to_string());
                         fedimint.write().reload_active_federation().await;
                         loading.set(false);
                     }
                     DepositState::Failed(reason) => {
                         state
                             .write()
-                            .toast
-                            .show(format!("Error waiting for onchain transaction: {reason}"));
+                            .toast(format!("Error waiting for onchain transaction: {reason}"));
                         loading.set(false);
                     }
                     _ => {}

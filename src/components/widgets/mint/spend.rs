@@ -27,8 +27,7 @@ pub fn Spend() -> Element {
         if amount() == 0 {
             state
                 .write()
-                .toast
-                .show("Amount must be greater than 0".to_string());
+                .toast("Amount must be greater than 0".to_string());
             return;
         }
 
@@ -77,10 +76,7 @@ pub fn Spend() -> Element {
                     dialog.set(true);
                 }
                 Err(e) => {
-                    state
-                        .write()
-                        .toast
-                        .show(format!("Error spending notes: {e}"));
+                    state.write().toast(format!("Error spending notes: {e}"));
                 }
             }
 
@@ -153,7 +149,7 @@ fn SpendDialog(notes: Signal<Option<(OperationId, OOBNotes)>>, open: Signal<bool
                             eval(format!("window.navigator.clipboard.writeText(\"{}\")", notes.1).as_str())
                                 .send("".into())
                                 .unwrap();
-                            state.write().toast.show("Copied to clipboard".to_string());
+                            state.write().toast("Copied to clipboard".to_string());
                         },
                         class: "w-full",
                         "Copy Notes"

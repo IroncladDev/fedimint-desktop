@@ -37,8 +37,7 @@ pub fn Pay() -> Element {
                 loading.set(false);
                 state
                     .write()
-                    .toast
-                    .show("Failed to generate invoice".to_string());
+                    .toast("Failed to generate invoice".to_string());
                 return;
             }
 
@@ -49,8 +48,7 @@ pub fn Pay() -> Element {
             if gateways.is_empty() {
                 state
                     .write()
-                    .toast
-                    .show("No Lightning gateways available".to_string());
+                    .toast("No Lightning gateways available".to_string());
                 return;
             }
 
@@ -60,10 +58,7 @@ pub fn Pay() -> Element {
                 .pay_bolt11_invoice(Some(gateway.info.to_owned()), bolt11.unwrap(), ())
                 .await;
 
-            state
-                .write()
-                .toast
-                .show("Invoice paid successfully".to_string());
+            state.write().toast("Invoice paid successfully".to_string());
             loading.set(false);
         });
     };

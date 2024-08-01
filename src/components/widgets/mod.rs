@@ -10,7 +10,6 @@ use mint::MintDashboard;
 use onchain::OnchainDashboard;
 
 use crate::state::*;
-use crate::util::types::Tab;
 
 #[component]
 pub fn Widgets() -> Element {

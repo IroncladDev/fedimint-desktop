@@ -4,11 +4,8 @@ use dioxus_free_icons::{
     Icon,
 };
 
-use crate::state::*;
-use crate::{
-    components::ui::*,
-    util::{meta::get_federation_icon, types::Tab},
-};
+use crate::{components::ui::*, util::meta::get_federation_icon};
+use crate::{state::*, util::meta::get_federation_name};
 
 #[component]
 pub fn Tabs() -> Element {
@@ -88,11 +85,7 @@ fn FederationIndicator() -> Element {
     let federation = fedimint().get_active_federation().unwrap();
 
     let src = get_federation_icon(federation.clone(), Some(state_read.theme.clone()));
-    let name: String = if let Some(n) = federation.meta.get("federation_name") {
-        n.to_string()
-    } else {
-        "unknown".to_string()
-    };
+    let name = get_federation_name(federation.clone());
 
     rsx! {
         ToggleButton { 

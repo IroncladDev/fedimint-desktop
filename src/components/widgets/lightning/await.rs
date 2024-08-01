@@ -30,7 +30,7 @@ pub fn Await() -> Element {
             while let Some(update) = updates.next().await {
                 match &update {
                     LnReceiveState::Claimed => {
-                        state.write().toast.show("Invoice claimed".to_string());
+                        state.write().toast("Invoice claimed".to_string());
 
                         fedimint.write().reload_active_federation().await;
 
@@ -38,10 +38,7 @@ pub fn Await() -> Element {
                         operation_id.set(String::new())
                     }
                     LnReceiveState::Canceled { reason } => {
-                        state
-                            .write()
-                            .toast
-                            .show(format!("Invoice canceled: {}", reason));
+                        state.write().toast(format!("Invoice canceled: {}", reason));
                         loading.set(false);
                     }
                     _ => {}

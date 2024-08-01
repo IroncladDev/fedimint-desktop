@@ -14,10 +14,7 @@ pub fn Validate() -> Element {
 
     let validate = move |_| {
         if notes().is_empty() {
-            state
-                .write()
-                .toast
-                .show("Notes must be provided".to_string());
+            state.write().toast("Notes must be provided".to_string());
             return;
         }
 
@@ -35,14 +32,10 @@ pub fn Validate() -> Element {
                 Ok(amount_msat) => {
                     state
                         .write()
-                        .toast
-                        .show(format!("Validated {} of ecash notes", amount_msat));
+                        .toast(format!("Validated {} of ecash notes", amount_msat));
                 }
                 Err(e) => {
-                    state
-                        .write()
-                        .toast
-                        .show(format!("Error validating notes: {e}"));
+                    state.write().toast(format!("Error validating notes: {e}"));
                 }
             }
 

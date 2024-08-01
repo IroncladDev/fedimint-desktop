@@ -20,7 +20,7 @@ pub fn CopyValue(value: String) -> Element {
                 eval(format!("window.navigator.clipboard.writeText(\"{}\")", value).as_str())
                     .send("".into())
                     .unwrap();
-                state.write().toast.show("Copied to clipboard".to_string());
+                state.write().toast("Copied to clipboard".to_string());
             },
             Icon {
                 width: 12,

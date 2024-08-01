@@ -24,8 +24,7 @@ pub fn Invoice() -> Element {
         if amount() == 0 {
             state
                 .write()
-                .toast
-                .show("Amount must be greater than 0".to_string());
+                .toast("Amount must be greater than 0".to_string());
             return;
         }
 
@@ -52,10 +51,7 @@ pub fn Invoice() -> Element {
                     dialog.set(true);
                 }
                 Err(e) => {
-                    state
-                        .write()
-                        .toast
-                        .show(format!("Error creating invoice: {e}"));
+                    state.write().toast(format!("Error creating invoice: {e}"));
                 }
             }
 
@@ -120,7 +116,7 @@ fn InvoiceDialog(
                             eval(format!("window.navigator.clipboard.writeText(\"{}\")", inv.1).as_str())
                                 .send("".into())
                                 .unwrap();
-                            state.write().toast.show("Copied to clipboard".to_string());
+                            state.write().toast("Copied to clipboard".to_string());
                         },
                         class: "w-full",
                         "Copy Invoice"

@@ -6,7 +6,7 @@ use tailwind_fuse::tw_merge;
 
 use crate::components::ui::*;
 use crate::state::*;
-use crate::util::meta::get_federation_icon;
+use crate::util::meta::{get_federation_icon, get_federation_name};
 
 #[component]
 pub fn FederationItem(info: InfoResponse) -> Element {
@@ -23,23 +23,15 @@ pub fn FederationItem(info: InfoResponse) -> Element {
         }
     );
 
-    let name: String = if let Some(n) = info.meta.get("federation_name") {
-        n.to_string()
-    } else {
-        info.federation_id.to_string().chars().take(6).collect()
-    };
-
-    // TODO: fetch and populate meta from external URL
-    let icon: String = get_federation_icon(info.clone(), Some(state().theme.clone()));
+    let name = get_federation_name(info.clone());
+    let icon = get_federation_icon(info.clone(), Some(state().theme.clone()));
 
     let switch_active_federation = move |_| {
         fedimint.write().active_federation_id = Some(info.federation_id);
     };
 
     let remove_federation = move |_| {
-        // TODO: remove function
         spawn(async move {
-            // Does not actually write to the db yet. Waiting on next version of multimint
             fedimint.write().remove_federation(info.federation_id).await;
         });
     };

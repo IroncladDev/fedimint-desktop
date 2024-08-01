@@ -2,13 +2,11 @@
 #![cfg_attr(feature = "bundle", windows_subsystem = "windows")]
 
 mod components;
-mod routes;
 mod state;
 mod util;
 
-use components::ui::Toast;
+use components::{sidebar::Sidebar, tabs::Tabs, ui::Toast, widgets::Widgets};
 use dioxus::prelude::*;
-use routes::Route;
 use state::*;
 use tailwind_fuse::tw_merge;
 use tracing::Level;
@@ -68,7 +66,19 @@ fn Content(fedimint: Fedimint) -> Element {
 
     rsx! {
         div { class, id: "app",
-            Router::<Route> {}
+            Sidebar {}
+            div { class: "flex flex-col grow",
+                Tabs {}
+                div { class: "grow relative",
+                    div { class: "absolute inset-0 overflow-y-auto flex flex-col",
+                        if let Some(_) = fedimint().active_federation_id {
+                            Widgets {}
+                        } else {
+                            "Loading"
+                        }
+                    }
+                }
+            }
             Toast {}
         }
     }

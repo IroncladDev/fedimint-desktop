@@ -25,15 +25,13 @@ pub fn AddFederationDialog(add_federation_dialog: Signal<bool>) -> Element {
                     fedimint().federations = info;
                     state
                         .write()
-                        .toast
-                        .show("Federation Added Successfully".to_string());
+                        .toast("Federation Added Successfully".to_string());
                     add_federation_dialog.set(false);
                 }
                 Err(e) => {
                     state
                         .write()
-                        .toast
-                        .show(format!("Failed to join Federation: {}", e));
+                        .toast(format!("Failed to join Federation: {}", e));
                 }
             };
             is_joining.set(false);

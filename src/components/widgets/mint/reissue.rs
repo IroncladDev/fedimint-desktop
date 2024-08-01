@@ -16,10 +16,7 @@ pub fn Reissue() -> Element {
 
     let reissue = move |_| {
         if notes().is_empty() {
-            state
-                .write()
-                .toast
-                .show("Notes must be provided".to_string());
+            state.write().toast("Notes must be provided".to_string());
             return;
         }
 
@@ -45,15 +42,12 @@ pub fn Reissue() -> Element {
 
             while let Some(update) = updates.next().await {
                 if let ReissueExternalNotesState::Failed(e) = update {
-                    state
-                        .write()
-                        .toast
-                        .show(format!("Error reissuing notes: {e}"));
+                    state.write().toast(format!("Error reissuing notes: {e}"));
                 }
             }
 
             fedimint.write().reload_active_federation().await;
-            state.write().toast.show(format!(
+            state.write().toast(format!(
                 "Reissued {} of ecash notes",
                 ecash_notes.total_amount()
             ));

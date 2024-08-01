@@ -34,8 +34,7 @@ pub fn CreateAddress() -> Element {
                 Err(e) => {
                     state
                         .write()
-                        .toast
-                        .show(format!("Error creating onchain address: {e}"));
+                        .toast(format!("Error creating onchain address: {e}"));
                 }
             }
             loading.set(false);
@@ -76,7 +75,7 @@ fn CreateAddressDialog(
                             eval(format!("window.navigator.clipboard.writeText(\"{}\")", address.1).as_str())
                                 .send("".into())
                                 .unwrap();
-                            state.write().toast.show("Copied to clipboard".to_string());
+                            state.write().toast("Copied to clipboard".to_string());
                         },
                         class: "w-full",
                         "Copy Address"

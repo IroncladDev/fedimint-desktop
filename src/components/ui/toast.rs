@@ -1,6 +1,7 @@
 use crate::state::AppState;
 use dioxus::prelude::*;
 use std::time::Duration;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 #[component]
 pub fn Toast() -> Element {
@@ -31,5 +32,42 @@ pub fn Toast() -> Element {
                 "{ms}"
             }
         }
+    }
+}
+
+#[derive(PartialEq, Clone, Debug)]
+pub struct ToastController {
+    pub content: Option<String>,
+    pub timestamp: u128,
+    pub visible: bool,
+}
+
+impl ToastController {
+    pub fn new() -> Self {
+        let timestamp = Self::get_timestamp();
+
+        ToastController {
+            content: None,
+            visible: false,
+            timestamp,
+        }
+    }
+
+    pub fn show(&mut self, message: String) {
+        self.content = Some(message);
+        self.visible = true;
+        self.timestamp = Self::get_timestamp();
+    }
+
+    pub fn hide(&mut self) {
+        self.visible = false;
+        self.timestamp = Self::get_timestamp();
+    }
+
+    fn get_timestamp() -> u128 {
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_millis()
     }
 }

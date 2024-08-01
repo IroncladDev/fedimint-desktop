@@ -1,10 +1,11 @@
 #![allow(dead_code)]
-use crate::util::types::{Tab, Toast};
+
+use crate::components::ui::ToastController;
 
 #[derive(Clone, Debug)]
 pub struct AppState {
     pub tab: Tab,
-    pub toast: Toast,
+    pub toast: ToastController,
     pub sidebar_open: bool,
     pub theme: Theme,
 }
@@ -24,11 +25,19 @@ pub enum Theme {
     Dark,
 }
 
+#[derive(PartialEq, Clone, Debug)]
+pub enum Tab {
+    Admin,
+    Lightning,
+    Mint,
+    Onchain,
+}
+
 impl AppState {
     pub fn new() -> Self {
         AppState {
             tab: Tab::Admin,
-            toast: Toast::new(),
+            toast: ToastController::new(),
             theme: Theme::Dark,
             sidebar_open: true,
         }
@@ -36,5 +45,9 @@ impl AppState {
 
     pub fn switch_tab(&mut self, tab: Tab) {
         self.tab = tab;
+    }
+
+    pub fn toast(&mut self, message: String) {
+        self.toast.show(message);
     }
 }

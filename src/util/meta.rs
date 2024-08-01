@@ -13,3 +13,11 @@ pub fn get_federation_icon(info: InfoResponse, theme: Option<Theme>) -> String {
         "federation-dark.png".to_string()
     }
 }
+
+pub fn get_federation_name(info: InfoResponse) -> String {
+    if let Some(n) = info.meta.get("federation_name") {
+        n.to_string()
+    } else {
+        info.federation_id.to_string().chars().take(6).collect()
+    }
+}
