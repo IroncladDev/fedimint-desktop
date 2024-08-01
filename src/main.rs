@@ -67,7 +67,9 @@ fn Content(fedimint: Fedimint) -> Element {
     );
 
     rsx! {
-        div { class, id: "app", Router::<Route> {} }
-        Toast {}
+        div { class, id: "app",
+            Router::<Route> {}
+            Toast {}
+        }
     }
 }

@@ -40,7 +40,7 @@ pub fn Sidebar() -> Element {
                         }
                     }
                 }
-                Flex {
+                Flex { 
                     Button { class: "w-full", onclick: move |_| add_federation_dialog.set(true), "Add a Federation" }
                 }
             }

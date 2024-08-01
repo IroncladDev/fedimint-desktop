@@ -13,7 +13,7 @@ pub fn Await() -> Element {
     let mut state = use_context::<Signal<AppState>>();
     let mut loading = use_signal(|| false);
     let mut operation_id = use_signal(String::new);
-    let fedimint = use_context::<Signal<Fedimint>>();
+    let mut fedimint = use_context::<Signal<Fedimint>>();
 
     let await_invoice = move |_| {
         spawn(async move {
@@ -32,7 +32,7 @@ pub fn Await() -> Element {
                     LnReceiveState::Claimed => {
                         state.write().toast.show("Invoice claimed".to_string());
 
-                        // TODO: update federation balance
+                        fedimint.write().reload_active_federation().await;
 
                         loading.set(false);
                         operation_id.set(String::new())

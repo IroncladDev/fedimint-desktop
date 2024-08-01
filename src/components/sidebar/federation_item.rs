@@ -53,9 +53,12 @@ pub fn FederationItem(info: InfoResponse) -> Element {
                 width: 36,
                 height: 36
             }
-            Text { class: "grow", "{name}" }
-            Popover {
-                PopoverTrigger {
+            Flex { col: true, grow: true,
+                Text { "{name}" }
+                Text { size: TextSize::Xs, class: "text-muted-foreground", "{info.total_amount_msat.to_string()}" }
+            }
+            Popover { 
+                PopoverTrigger { 
                     Icon {
                         width: 16,
                         height: 16,
@@ -63,7 +66,7 @@ pub fn FederationItem(info: InfoResponse) -> Element {
                         icon: LdEllipsisVertical
                     }
                 }
-                PopoverContent {
+                PopoverContent { 
                     Flex { col: true,
                         if info.meta.contains_key("invite_code") {
                             FederationOption { onclick: move |_| { qr_open.set(!qr_open()) },

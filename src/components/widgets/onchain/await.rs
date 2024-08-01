@@ -13,7 +13,7 @@ pub fn Await() -> Element {
     let mut state = use_context::<Signal<AppState>>();
     let mut loading = use_signal(|| false);
     let mut operation_id = use_signal(String::new);
-    let fedimint = use_context::<Signal<Fedimint>>();
+    let mut fedimint = use_context::<Signal<Fedimint>>();
 
     let await_onchain = move |_| {
         spawn(async move {
@@ -34,6 +34,7 @@ pub fn Await() -> Element {
                             .write()
                             .toast
                             .show("Onchain transaction confirmed".to_string());
+                        fedimint.write().reload_active_federation().await;
                         loading.set(false);
                     }
                     DepositState::Claimed(_) => {
@@ -41,6 +42,7 @@ pub fn Await() -> Element {
                             .write()
                             .toast
                             .show("Onchain transaction claimed".to_string());
+                        fedimint.write().reload_active_federation().await;
                         loading.set(false);
                     }
                     DepositState::Failed(reason) => {

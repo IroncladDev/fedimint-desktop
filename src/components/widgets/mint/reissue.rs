@@ -12,7 +12,7 @@ pub fn Reissue() -> Element {
     let mut state = use_context::<Signal<AppState>>();
     let mut notes = use_signal(String::new);
     let mut loading = use_signal(|| false);
-    let fedimint = use_context::<Signal<Fedimint>>();
+    let mut fedimint = use_context::<Signal<Fedimint>>();
 
     let reissue = move |_| {
         if notes().is_empty() {
@@ -52,6 +52,7 @@ pub fn Reissue() -> Element {
                 }
             }
 
+            fedimint.write().reload_active_federation().await;
             state.write().toast.show(format!(
                 "Reissued {} of ecash notes",
                 ecash_notes.total_amount()

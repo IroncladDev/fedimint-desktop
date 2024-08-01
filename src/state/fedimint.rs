@@ -185,4 +185,28 @@ impl Fedimint {
             self.active_federation_id = None;
         }
     }
+
+    pub async fn reload_active_federation(&mut self) {
+        let client = self.get_multimint_client().await.unwrap();
+
+        let mint_client = client.get_first_module::<MintClientModule>();
+        let summary = mint_client
+            .get_wallet_summary(
+                &mut client
+                    .db()
+                    .begin_transaction_nc()
+                    .await
+                    .to_ref_with_prefix_module_id(1),
+            )
+            .await;
+
+        let active_federation = self
+            .federations
+            .get_mut(&self.active_federation_id.unwrap())
+            .unwrap();
+
+        active_federation.total_amount_msat = summary.total_amount();
+        active_federation.total_num_notes = summary.count_items();
+        active_federation.denominations_msat = summary;
+    }
 }

@@ -79,7 +79,7 @@ fn FederationIndicator() -> Element {
 
     if active_federation.is_none() {
         return rsx! {
-            ToggleButton {
+            ToggleButton { 
                 Icon { width: 16, height: 16, class: "text-muted-foreground", icon: LdMenu }
             }
         };
@@ -95,7 +95,7 @@ fn FederationIndicator() -> Element {
     };
 
     rsx! {
-        ToggleButton {
+        ToggleButton { 
             if !state().sidebar_open {
                 Icon {
                     width: 16,

@@ -727,6 +727,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d86b93f97252c47b41663388e6d155714a9d0c398b99f1005cbc5f978b29f445"
 
 [[package]]
+name = "bech32"
+version = "0.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d965446196e3b7decd44aa7ee49e31d630118f90ef12f97900f262eb915c951d"
+
+[[package]]
 name = "beef"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -776,7 +782,7 @@ version = "0.29.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0694ea59225b0c5f3cb405ff3f670e4828358ed26aec49dc352f730f0cb1a8a3"
 dependencies = [
- "bech32",
+ "bech32 0.9.1",
  "bitcoin_hashes 0.11.0",
  "core2",
  "hashbrown 0.8.2",
@@ -790,7 +796,7 @@ version = "0.30.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1945a5048598e4189e239d3f809b19bdad4845c4b2ba400d304d2dcf26d2c462"
 dependencies = [
- "bech32",
+ "bech32 0.9.1",
  "bitcoin-private",
  "bitcoin_hashes 0.12.0",
  "hex_lit",
@@ -2451,9 +2457,9 @@ checksum = "60b1af1c220855b6ceac025d3f6ecdd2b7c4894bfe9cd9bda4fbb4bc7c0d4cf0"
 
 [[package]]
 name = "email_address"
-version = "0.2.9"
+version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e079f19b08ca6239f47f8ba8509c11cf3ea30095831f7fed61441475edd8c449"
+checksum = "c1019fa28f600f5b581b7a603d515c3f1635da041ca211b5055804788673abfe"
 dependencies = [
  "serde",
 ]
@@ -2773,7 +2779,7 @@ dependencies = [
  "async-trait",
  "backon",
  "backtrace",
- "bech32",
+ "bech32 0.9.1",
  "bincode",
  "bitcoin 0.29.2",
  "bitcoin 0.30.2",
@@ -2849,6 +2855,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
+ "chrono",
  "dioxus",
  "dioxus-cli",
  "dioxus-free-icons",
@@ -5498,7 +5505,7 @@ version = "0.26.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3eb24878b0f4ef75f020976c886d9ad1503867802329cc963e0ab4623ea3b25c"
 dependencies = [
- "bech32",
+ "bech32 0.9.1",
  "bitcoin 0.29.2",
  "bitcoin_hashes 0.11.0",
  "lightning",
@@ -5609,14 +5616,14 @@ dependencies = [
 
 [[package]]
 name = "lnurl-rs"
-version = "0.5.0"
+version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "043935963e3454227165b4daf62e8fdecd6273857e0e6fc00422aea4d9258673"
+checksum = "86f2347f6764fedbb74482d88f472dc3e2c7613304bfea31ce1b7ee8e1ebbf8c"
 dependencies = [
  "aes",
  "anyhow",
  "base64 0.22.1",
- "bech32",
+ "bech32 0.11.0",
  "bitcoin 0.30.2",
  "cbc",
  "email_address",
