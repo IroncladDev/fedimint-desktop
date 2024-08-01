@@ -6,6 +6,8 @@ use crate::components::toast::Toast;
 use crate::components::widgets::Widgets;
 use crate::util::state::AppState;
 use dioxus::prelude::*;
+use multimint::fedimint_mint_client::MintClientModule;
+use multimint::fedimint_wallet_client::WalletClientModule;
 use multimint::types::InfoResponse;
 use serde::Deserialize;
 
@@ -37,12 +39,37 @@ pub fn Home() -> Element {
 
     use_effect(move || {
         spawn(async move {
-            let federation_info = state().multimint.info().await;
-            if let Ok(info) = federation_info {
-                state.write().federations = info.clone();
-                if let Some((federation_id, _)) = info.first_key_value() {
-                    state.write().active_federation_id = Some(*federation_id);
-                }
+            let mut info = BTreeMap::new();
+
+            for (id, client) in state().multimint.clients.lock().await.iter() {
+                let mint_client = client.get_first_module::<MintClientModule>();
+                let wallet_client = client.get_first_module::<WalletClientModule>();
+                let summary = mint_client
+                    .get_wallet_summary(
+                        &mut client
+                            .db()
+                            .begin_transaction_nc()
+                            .await
+                            .to_ref_with_prefix_module_id(1),
+                    )
+                    .await;
+
+                info.insert(
+                    *id,
+                    InfoResponse {
+                        network: wallet_client.get_network().to_string(),
+                        meta: client.get_config().global.meta.clone(),
+                        total_amount_msat: summary.total_amount(),
+                        total_num_notes: summary.count_items(),
+                        denominations_msat: summary,
+                        federation_id: *id,
+                    },
+                );
+            }
+
+            state.write().federations = info.clone();
+            if let Some((federation_id, _)) = info.first_key_value() {
+                state.write().active_federation_id = Some(*federation_id);
             }
         });
     });

@@ -31,18 +31,7 @@ pub fn Await() -> Element {
                     LnReceiveState::Claimed => {
                         state.write().toast.show("Invoice claimed".to_string());
 
-                        // Update federation balance
-                        let federation_info = state().multimint.info().await;
-                        if let Ok(info) = federation_info {
-                            for (federation_id, info) in info.iter() {
-                                state
-                                    .write()
-                                    .federations
-                                    .get_mut(federation_id)
-                                    .unwrap()
-                                    .total_amount_msat = info.total_amount_msat;
-                            }
-                        }
+                        // TODO: update federation balance
 
                         loading.set(false);
                         operation_id.set(String::new())
@@ -53,7 +42,6 @@ pub fn Await() -> Element {
                             .toast
                             .show(format!("Invoice canceled: {}", reason));
                         loading.set(false);
-                        operation_id.set(String::new())
                     }
                     _ => {}
                 }

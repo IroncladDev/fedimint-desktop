@@ -82,7 +82,7 @@ pub fn Invoice() -> Element {
                 }
             }
             Flex { col: true, gap: 1,
-                Text { "Expiry (Milliseconds) (Optional)" }
+                Text { "Expiry (Seconds) (Optional)" }
                 Input {
                     value: "{expiry}",
                     r#type: "number",

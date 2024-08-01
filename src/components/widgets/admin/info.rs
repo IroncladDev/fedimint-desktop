@@ -8,18 +8,16 @@ use crate::components::widget::Widget;
 pub fn Info() -> Element {
     let federation = use_context::<Memo<Option<InfoResponse>>>().unwrap();
 
-    println!("{:?}", &federation);
-
     let federation_id = federation.federation_id.to_string();
     let network = federation.network;
-    let total_amount_msat = federation.total_amount_msat.msats.to_string();
-    let total_num_notes = federation.total_num_notes.to_string();
+    let total_amount_msat = federation.total_amount_msat.to_string();
+    let total_num_notes = federation.total_num_notes;
 
     rsx! {
         Widget { title: "Info",
             Flex { col: true, gap: 2,
                 Flex { gap: 1, col: true,
-                    Text { weight: TextWeight::Medium, "Balance (msats)" }
+                    Text { weight: TextWeight::Medium, "Balance" }
                     Code { "{total_amount_msat}" }
                 }
                 Flex { gap: 1, col: true,

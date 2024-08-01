@@ -22,30 +22,28 @@ Run `mprocs` in the terminal. Ensure you have cargo, bun, and mprocs installed.
     - [x] Meta
     - [x] Operations
     - [x] Denominations
-  - [ ] Lightning
-    - [ ] await
-    - [ ] claim_tweaks
-    - [ ] gateways
-    - [ ] invoice
-    - [ ] mod
-    - [ ] pay
-    - [ ] tweak_invoice
-  - [ ] Mint
-    - [ ] combine
-    - [ ] decode
-    - [ ] encode
-    - [ ] mod
-    - [ ] reissue
-    - [ ] spend
-    - [ ] split
-    - [ ] validate
-  - [ ] Onchain
-    - [ ] await
-    - [ ] create_invoice
-- [ ] Github ci actions for building for multiple machines (Nix for deps)
+  - [x] Lightning
+    - [x] await
+    - [x] gateways
+    - [x] invoice
+    - [x] pay
+  - [x] Mint
+    - [x] reissue
+    - [x] spend
+    - [x] validate
+  - [x] Onchain
+    - [x] await
+    - [x] create_invoice
 
 ## Future Plans
 
+- [ ] Github ci actions for building for multiple machines (Nix for deps), github releases
+- [ ] Better loading states for await operations
+- [ ] Split/Combine Notes
+- [ ] Encode/Decode Notes
+- [ ] Tweak Invoices
 - [ ] Backup / Recovery with Seed Words
 - [ ] Import Wallet with Seed Words (? Might clash with Fedi)
 - [ ] Developer Mode (? Higher/Lower level client toggle)
+
+

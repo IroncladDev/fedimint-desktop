@@ -20,10 +20,10 @@ pub fn QRCode(value: String, class: Option<String>, size: Option<usize>) -> Elem
         format!("data:image/png;base64,{png_base64}")
     });
 
-    let class_name = tw_merge!("max-w-[360px] rounded-lg border", class);
+    let class_name = tw_merge!("max-w-[320px] rounded-lg border", class);
 
     rsx! {
-        Flex { col: true, center: true, p: 2, class: "bg-secondary",
+        Flex { col: true, center: true, p: 2, class: "bg-secondary rounded-lg",
             img { class: class_name, src: qr_data_url }
         }
     }
