@@ -1,4 +1,7 @@
 use dioxus::prelude::*;
+use tailwind_fuse::tw_merge;
+
+use crate::components::ui::Flex;
 
 #[component]
 pub fn QRCode(value: String, class: Option<String>, size: Option<usize>) -> Element {
@@ -17,7 +20,11 @@ pub fn QRCode(value: String, class: Option<String>, size: Option<usize>) -> Elem
         format!("data:image/png;base64,{png_base64}")
     });
 
+    let class_name = tw_merge!("max-w-[360px] rounded-lg border", class);
+
     rsx! {
-        img { class, src: qr_data_url }
+        Flex { col: true, center: true, p: 2, class: "bg-secondary",
+            img { class: class_name, src: qr_data_url }
+        }
     }
 }

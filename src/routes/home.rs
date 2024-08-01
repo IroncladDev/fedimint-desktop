@@ -2,6 +2,7 @@ use std::collections::{BTreeMap, HashMap};
 
 use crate::components::sidebar::Sidebar;
 use crate::components::tabs::Tabs;
+use crate::components::toast::Toast;
 use crate::components::widgets::Widgets;
 use crate::util::state::AppState;
 use dioxus::prelude::*;
@@ -106,13 +107,18 @@ pub fn Home() -> Element {
 
     rsx! {
         Sidebar {}
-        if let Some(_) = active_federation() {
-            div { class: "flex flex-col grow",
-                Tabs {}
-                div { class: "grow relative",
-                    div { class: "absolute inset-0 overflow-y-auto flex flex-col", Widgets {} }
+        div { class: "flex flex-col grow",
+            Tabs {}
+            div { class: "grow relative",
+                div { class: "absolute inset-0 overflow-y-auto flex flex-col",
+                    if let Some(_) = active_federation() {
+                        Widgets {}
+                    } else {
+                        "Loading"
+                    }
                 }
             }
         }
+        Toast {}
     }
 }

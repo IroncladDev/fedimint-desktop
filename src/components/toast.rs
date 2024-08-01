@@ -26,7 +26,7 @@ pub fn Toast() -> Element {
     let toast_key = state().toast.timestamp;
 
     rsx! {
-        div { key: "{toast_key}", class: "fixed bg-default border-2 border-outline-default px-4 py-2 rounded-lg transition-all {visibility} right-[20px] bottom-[20px] text-foreground-highest",
+        div { key: "{toast_key}", class: "fixed bg-card border-2 px-4 py-2 rounded-lg transition-all {visibility} right-[20px] bottom-[20px] text-foreground-highest z-50 shadow-lg",
             if let Some(ms) = &state().toast.content {
                 "{ms}"
             }

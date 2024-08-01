@@ -44,9 +44,8 @@ pub fn AddFederationDialog(add_federation_dialog: Signal<bool>) -> Element {
         Dialog { open: add_federation_dialog, title: "Add a Federation",
             Flex { col: true, gap: 2,
                 Flex { col: true, gap: 1,
-                    label { r#for: "federation_invite", "Federation Invite Code" }
+                    label { "Federation Invite Code" }
                     Input {
-                        id: "federation_invite",
                         value: invite_code(),
                         oninput: move |e: Event<FormData>| invite_code.set(e.value()),
                         placeholder: "fed1..."

@@ -17,11 +17,11 @@ Run `mprocs` in the terminal. Ensure you have cargo, bun, and mprocs installed.
       - [x] Proper Loading States
       - [x] Responsive, toggleable
 - [ ] Widgets
-  - [ ] Admin
-    - [ ] Info
-    - [ ] Meta
-    - [ ] Operations
-    - [ ] Denominations
+  - [x] Admin
+    - [x] Info
+    - [x] Meta
+    - [x] Operations
+    - [x] Denominations
   - [ ] Lightning
     - [ ] await
     - [ ] claim_tweaks
