@@ -1,12 +1,13 @@
 use dioxus::prelude::*;
-use multimint::types::InfoResponse;
 
 use crate::components::ui::*;
 use crate::components::widget::Widget;
+use crate::state::*;
 
 #[component]
 pub fn Denominations() -> Element {
-    let federation = use_context::<Memo<Option<InfoResponse>>>().unwrap();
+    let fedimint = use_context::<Signal<Fedimint>>();
+    let federation = fedimint().get_active_federation().unwrap();
 
     let denominations = federation.denominations_msat.iter();
 

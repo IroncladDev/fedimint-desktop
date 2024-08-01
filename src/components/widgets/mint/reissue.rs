@@ -2,7 +2,8 @@ use crate::components::ui::*;
 use futures_util::StreamExt;
 use std::str::FromStr;
 
-use crate::{components::widget::Widget, util::state::AppState};
+use crate::components::widget::Widget;
+use crate::state::*;
 use dioxus::prelude::*;
 use multimint::fedimint_mint_client::{MintClientModule, OOBNotes, ReissueExternalNotesState};
 
@@ -11,6 +12,7 @@ pub fn Reissue() -> Element {
     let mut state = use_context::<Signal<AppState>>();
     let mut notes = use_signal(String::new);
     let mut loading = use_signal(|| false);
+    let mut fedimint = use_context::<Signal<Fedimint>>();
 
     let reissue = move |_| {
         if notes().is_empty() {
@@ -23,8 +25,7 @@ pub fn Reissue() -> Element {
 
         spawn(async move {
             loading.set(true);
-            let federation_id = state().active_federation_id.unwrap();
-            let client = state().multimint.get(&federation_id).await.unwrap();
+            let client = fedimint().get_multimint_client().await.unwrap();
             let mint = client.get_first_module::<MintClientModule>();
 
             let ecash_notes = OOBNotes::from_str(&notes()).unwrap();
@@ -51,6 +52,7 @@ pub fn Reissue() -> Element {
                 }
             }
 
+            fedimint.write().reload_active_federation().await;
             state.write().toast.show(format!(
                 "Reissued {} of ecash notes",
                 ecash_notes.total_amount()

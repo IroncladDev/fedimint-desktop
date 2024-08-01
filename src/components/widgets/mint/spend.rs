@@ -1,10 +1,8 @@
 use std::time::Duration;
 
 use crate::components::ui::*;
-use crate::{
-    components::{dialog::Dialog, widget::Widget},
-    util::state::AppState,
-};
+use crate::components::widget::Widget;
+use crate::state::*;
 use dioxus::prelude::*;
 use multimint::fedimint_core::Amount;
 use multimint::fedimint_mint_client::{
@@ -23,6 +21,7 @@ pub fn Spend() -> Element {
     let mut dialog = use_signal(|| false);
     let mut notes = use_signal::<Option<(OperationId, OOBNotes)>>(|| None);
     let mut loading = use_signal(|| false);
+    let fedimint = use_context::<Signal<Fedimint>>();
 
     let spend = move |_| {
         if amount() == 0 {
@@ -35,8 +34,7 @@ pub fn Spend() -> Element {
 
         spawn(async move {
             loading.set(true);
-            let federation_id = state().active_federation_id.unwrap();
-            let client = state().multimint.get(&federation_id).await.unwrap();
+            let client = fedimint().get_multimint_client().await.unwrap();
             let mint_module = client.get_first_module::<MintClientModule>();
 
             let res = if allow_overpay() {

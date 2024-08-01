@@ -1,18 +1,23 @@
-use dioxus::prelude::*;
+use std::time::SystemTime;
 
 use crate::components::ui::*;
-use crate::{components::widget::Widget, util::state::AppState};
+use crate::components::widget::Widget;
+use crate::state::*;
+use chrono::{DateTime, Utc};
+use dioxus::prelude::*;
 
 #[component]
 pub fn Operations() -> Element {
-    let state = use_context::<Signal<AppState>>();
+    let fedimint = use_context::<Signal<Fedimint>>();
 
     let operations = use_resource(move || async move {
-        let federation_id = state().active_federation_id.unwrap();
-        let client = state().multimint.get(&federation_id).await.unwrap();
+        let client = fedimint().get_multimint_client().await.unwrap();
 
         client.operation_log().list_operations(24, None).await
     });
+
+    let format_date =
+        move |date: SystemTime| std::convert::Into::<DateTime<Utc>>::into(date).to_rfc3339();
 
     rsx! {
         match &*operations.read_unchecked() {
@@ -34,6 +39,11 @@ pub fn Operations() -> Element {
                                     Flex { col: true, gap: 1,
                                         Text { weight: TextWeight::Medium, "Type" }
                                         CopyValue { value: "{op.operation_module_kind()}" },
+                                    }
+                                    Flex {
+                                        gap: 2,
+                                        Text { "Timestamp"}
+                                        Code { "{format_date(id.creation_time)}" }
                                     }
                                 }
                             }

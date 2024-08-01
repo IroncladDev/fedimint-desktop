@@ -2,7 +2,8 @@ use futures_util::StreamExt;
 use std::str::FromStr;
 
 use crate::components::ui::*;
-use crate::{components::widget::Widget, util::state::AppState};
+use crate::components::widget::Widget;
+use crate::state::*;
 use dioxus::prelude::*;
 use multimint::fedimint_core::core::OperationId;
 use multimint::fedimint_wallet_client::{DepositState, WalletClientModule};
@@ -12,12 +13,12 @@ pub fn Await() -> Element {
     let mut state = use_context::<Signal<AppState>>();
     let mut loading = use_signal(|| false);
     let mut operation_id = use_signal(String::new);
+    let mut fedimint = use_context::<Signal<Fedimint>>();
 
     let await_onchain = move |_| {
         spawn(async move {
             loading.set(true);
-            let federation_id = state().active_federation_id.unwrap();
-            let client = state().multimint.get(&federation_id).await.unwrap();
+            let client = fedimint().get_multimint_client().await.unwrap();
             let mut updates = client
                 .get_first_module::<WalletClientModule>()
                 .subscribe_deposit_updates(OperationId::from_str(&operation_id()).unwrap())
@@ -33,6 +34,7 @@ pub fn Await() -> Element {
                             .write()
                             .toast
                             .show("Onchain transaction confirmed".to_string());
+                        fedimint.write().reload_active_federation().await;
                         loading.set(false);
                     }
                     DepositState::Claimed(_) => {
@@ -40,6 +42,7 @@ pub fn Await() -> Element {
                             .write()
                             .toast
                             .show("Onchain transaction claimed".to_string());
+                        fedimint.write().reload_active_federation().await;
                         loading.set(false);
                     }
                     DepositState::Failed(reason) => {

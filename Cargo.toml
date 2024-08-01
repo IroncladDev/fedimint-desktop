@@ -25,7 +25,8 @@ dioxus-free-icons = { version = "0.8.6", features = ["lucide"] }
 qrcode-generator = "4.1.9"
 base64 = "0.22.1"
 reqwest = "0.12.5"
-lnurl-rs = { version = "0.5.0", features = ["async"], default-features = false }
+lnurl-rs = { version = "0.6.0", features = ["async"], default-features = false }
+chrono = "0.4.38"
 
 [features]
 bundle = []

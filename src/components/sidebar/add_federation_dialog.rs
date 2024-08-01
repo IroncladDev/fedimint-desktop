@@ -3,26 +3,26 @@ use std::str::FromStr;
 use dioxus::prelude::*;
 use multimint::fedimint_core::api::InviteCode;
 
-use crate::{
-    components::{dialog::Dialog, ui::*},
-    util::state::AppState,
-};
+use crate::components::ui::*;
+use crate::state::*;
 
 #[component]
 pub fn AddFederationDialog(add_federation_dialog: Signal<bool>) -> Element {
     let mut state = use_context::<Signal<AppState>>();
     let mut is_joining = use_signal::<bool>(|| false);
     let mut invite_code = use_signal::<String>(|| "".to_string());
+    let fedimint = use_context::<Signal<Fedimint>>();
 
     let join_federation = move |_| {
         is_joining.set(true);
         spawn(async move {
             let invite = InviteCode::from_str(invite_code().as_str()).unwrap();
-            let res = state.write().multimint.register_new(invite, None).await;
+            let res = fedimint().multimint.register_new(invite, None).await;
             match res {
                 Ok(_) => {
-                    let info = state().multimint.info().await.unwrap();
-                    state.write().federations = info;
+                    let info = fedimint().multimint.info().await.unwrap();
+                    // TODO: update meta as well in helper function
+                    fedimint().federations = info;
                     state
                         .write()
                         .toast

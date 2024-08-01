@@ -9,7 +9,8 @@ use lightning::LightningDashboard;
 use mint::MintDashboard;
 use onchain::OnchainDashboard;
 
-use crate::util::{state::AppState, types::Tab};
+use crate::state::*;
+use crate::util::types::Tab;
 
 #[component]
 pub fn Widgets() -> Element {
