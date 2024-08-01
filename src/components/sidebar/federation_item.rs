@@ -4,7 +4,6 @@ use dioxus_free_icons::Icon;
 use multimint::types::InfoResponse;
 use tailwind_fuse::tw_merge;
 
-use crate::components::dialog::Dialog;
 use crate::components::ui::*;
 use crate::util::meta::get_federation_icon;
 use crate::util::state::AppState;
@@ -58,8 +57,8 @@ pub fn FederationItem(info: InfoResponse) -> Element {
                 height: 36
             }
             Text { class: "grow", "{name}" }
-            Popover { 
-                PopoverTrigger { 
+            Popover {
+                PopoverTrigger {
                     Icon {
                         width: 16,
                         height: 16,
@@ -67,7 +66,7 @@ pub fn FederationItem(info: InfoResponse) -> Element {
                         icon: LdEllipsisVertical
                     }
                 }
-                PopoverContent { 
+                PopoverContent {
                     Flex { col: true,
                         if info.meta.contains_key("invite_code") {
                             FederationOption { onclick: move |_| { qr_open.set(!qr_open()) },

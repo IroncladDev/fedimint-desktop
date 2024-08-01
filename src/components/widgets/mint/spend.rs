@@ -1,10 +1,7 @@
 use std::time::Duration;
 
 use crate::components::ui::*;
-use crate::{
-    components::{dialog::Dialog, widget::Widget},
-    util::state::AppState,
-};
+use crate::{components::widget::Widget, util::state::AppState};
 use dioxus::prelude::*;
 use multimint::fedimint_core::Amount;
 use multimint::fedimint_mint_client::{

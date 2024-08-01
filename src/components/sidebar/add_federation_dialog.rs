@@ -3,10 +3,7 @@ use std::str::FromStr;
 use dioxus::prelude::*;
 use multimint::fedimint_core::api::InviteCode;
 
-use crate::{
-    components::{dialog::Dialog, ui::*},
-    util::state::AppState,
-};
+use crate::{components::ui::*, util::state::AppState};
 
 #[component]
 pub fn AddFederationDialog(add_federation_dialog: Signal<bool>) -> Element {

@@ -2,7 +2,6 @@ use std::collections::{BTreeMap, HashMap};
 
 use crate::components::sidebar::Sidebar;
 use crate::components::tabs::Tabs;
-use crate::components::toast::Toast;
 use crate::components::widgets::Widgets;
 use crate::util::state::AppState;
 use dioxus::prelude::*;
@@ -146,6 +145,5 @@ pub fn Home() -> Element {
                 }
             }
         }
-        Toast {}
     }
 }

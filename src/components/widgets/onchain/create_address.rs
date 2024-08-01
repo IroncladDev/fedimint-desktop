@@ -1,6 +1,5 @@
 use std::time::Duration;
 
-use crate::components::dialog::Dialog;
 use crate::components::ui::*;
 use crate::{components::widget::Widget, util::state::AppState};
 use dioxus::prelude::*;

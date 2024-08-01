@@ -1,4 +1,3 @@
-use crate::components::dialog::Dialog;
 use crate::components::ui::*;
 use crate::components::widget::Widget;
 use crate::util::state::AppState;
