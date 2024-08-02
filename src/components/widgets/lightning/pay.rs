@@ -54,11 +54,22 @@ pub fn Pay() -> Element {
 
             let gateway = &gateways[0];
 
-            let _ = lightning_module
+            let res = lightning_module
                 .pay_bolt11_invoice(Some(gateway.info.to_owned()), bolt11.unwrap(), ())
                 .await;
 
-            state.write().toast("Invoice paid successfully".to_string());
+            match res {
+                Ok(_) => {
+                    state.write().toast("Invoice paid successfully".to_string());
+                }
+                Err(e) => {
+                    state.write().toast(format!("Failed to pay invoice: {e}"));
+                }
+            }
+
+            payment_info.set(String::new());
+            payment_amount.set(0);
+            lnurl_comment.set(String::new());
             loading.set(false);
         });
     };
