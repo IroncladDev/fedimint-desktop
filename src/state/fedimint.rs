@@ -6,7 +6,6 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::anyhow;
 use multimint::{
     fedimint_client::ClientHandle,
     fedimint_core::{api::InviteCode, config::FederationId},
