@@ -6,10 +6,14 @@ use std::{
     sync::Arc,
 };
 
+use anyhow::anyhow;
 use multimint::{
-    fedimint_client::ClientHandle, fedimint_core::config::FederationId,
-    fedimint_mint_client::MintClientModule, fedimint_wallet_client::WalletClientModule,
-    types::InfoResponse, MultiMint,
+    fedimint_client::ClientHandle,
+    fedimint_core::{api::InviteCode, config::FederationId},
+    fedimint_mint_client::MintClientModule,
+    fedimint_wallet_client::WalletClientModule,
+    types::InfoResponse,
+    MultiMint,
 };
 use serde::Deserialize;
 
@@ -184,6 +188,19 @@ impl Fedimint {
         if federation_id == self.active_federation_id.unwrap() {
             self.active_federation_id = None;
         }
+    }
+
+    pub async fn add_federation(&mut self, invite_code: InviteCode) -> Result<(), String> {
+        self.multimint
+            .register_new(invite_code, None)
+            .await
+            .map_err(|e| e.to_string())?;
+        let federations = Self::load_federation_info(&self.multimint).await?;
+
+        self.federations = federations;
+        self.reload_meta().await.unwrap();
+
+        Ok(())
     }
 
     pub async fn reload_active_federation(&mut self) {

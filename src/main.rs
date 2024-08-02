@@ -28,6 +28,7 @@ fn App() -> Element {
     let themed_class = tw_merge!("dark");
 
     rsx! {
+        style { {include_str!("../assets/tailwind.css")} }
         match (fedimint_instance.value())() {
             Some(Ok(fedimint)) => rsx! {
                 Content { fedimint }

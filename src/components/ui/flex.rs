@@ -55,11 +55,31 @@ pub fn Flex(props: FlexProps) -> Element {
             _ => "",
         },
         match props.gap {
-            Some(g) => format!("gap-{}", g),
+            Some(g) => match g {
+                0 => "gap-0".to_string(),
+                1 => "gap-1".to_string(),
+                2 => "gap-2".to_string(),
+                4 => "gap-4".to_string(),
+                6 => "gap-6".to_string(),
+                8 => "gap-8".to_string(),
+                12 => "gap-12".to_string(),
+                16 => "gap-16".to_string(),
+                _ => format!("gap-{}", g),
+            },
             _ => "".to_string(),
         },
         match props.p {
-            Some(p) => format!("p-{}", p),
+            Some(p) => match p {
+                0 => "p-0".to_string(),
+                1 => "p-1".to_string(),
+                2 => "p-2".to_string(),
+                4 => "p-4".to_string(),
+                6 => "p-6".to_string(),
+                8 => "p-8".to_string(),
+                12 => "p-12".to_string(),
+                16 => "p-16".to_string(),
+                _ => format!("p-{}", p),
+            },
             _ => "".to_string(),
         },
         match props.row {

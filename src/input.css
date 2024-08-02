@@ -86,7 +86,14 @@
     @apply fixed bg-popover border p-1 rounded-md shadow-md z-10;
   }
 
-  .popover:focus-within .popover-content, .popover-content:focus-within {
+  .popover:focus-within .popover-content,
+  .popover-content:focus-within {
     display: block;
+  }
+
+  .masonry {
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    grid-auto-rows: minmax(160px, auto);
+    @apply p-4 gap-4 grid;
   }
 }

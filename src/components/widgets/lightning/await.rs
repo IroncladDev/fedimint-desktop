@@ -55,8 +55,8 @@ pub fn Await() -> Element {
                     value: "{operation_id}",
                     oninput: move |e: Event<FormData>| operation_id.set(e.value())
                 }
-                Button { onclick: await_invoice, disabled: loading(), "Wait for Invoice" }
             }
+            Button { onclick: await_invoice, disabled: loading(), "Wait for Invoice" }
         }
     }
 }
